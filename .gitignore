@@ -1,0 +1,12 @@
+node_modules/
+bundle.js
+npm-debug.log
+
+/.idea
+/public
+
+.env
+.DS_Store
+
+build/
+dist/
