@@ -2,7 +2,7 @@ import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
 import { color, shape } from '../styles';
-
+import canbanio from '../assets/images/canbanio.png';
 import styled from 'styled-components';
 
 const Header = styled.header`
@@ -11,6 +11,7 @@ const Header = styled.header`
 
 const StyledNav = styled.nav`
 	display: flex;
+	background-color: #f6EAEA;
 `;
 
 const NavigationList = styled.ul`
@@ -37,6 +38,10 @@ const NavigationItem = styled.li`
 	&:hover {
 		background: ${color.backgroundLight};
 	}
+`;
+
+const Canbanio = styled.img `
+	width:200px;
 `;
 
 function AuthNav() {
@@ -79,6 +84,7 @@ function Nav() {
 						Home
 					</Link>
 				</NavigationItem>
+				
 			</NavigationList>
 			<AuthNav />
 		</StyledNav>
