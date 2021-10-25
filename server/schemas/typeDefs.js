@@ -6,14 +6,25 @@ const typeDefs = gql`
     email: String
   }
 
+  type PostCards {
+    id: ID
+    title: String
+    creationDate: String
+    state: String
+    workspaceID: Int
+  }
+
   type Auth {
     token: ID
     user: User
   }
 
   type Query {
-    user: User
+    user: User,
+    hello: String,
+    getAllCards: [PostCards]
   }
+
 
   type Mutation {
     addUser(email: String!, password: String!): Auth

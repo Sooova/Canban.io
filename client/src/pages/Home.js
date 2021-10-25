@@ -111,28 +111,32 @@ const StyledInfoCard = styled.div`
 const StyledInfoCardText = styled.p`
 font-family: "DM Sans", sans-serif;
 font-size: ${props => props.fontSize}px;
+font-weight: ${props => props.fontWeight};
 color: rgb(31, 28, 46);
 text-align: center;
-padding:3%;
+padding:4%;
 margin-left:20px;
 margin-right:20px;
+line-height:150%;
 `;
 
 const StyledCanbanio = styled.img `
   width:500px;
   display:block;
+  visibility:hidden;
   margin-left:auto;
   margin-right:auto;
 `;
 
 const StyledDiagonalDiv = styled.div `
   position:absolute;
-  z-index: -5;
+  z-index: -10;
+  top: 0;
+  right: 0;
   width: 0;
   height: 0;
   border-top: 1500px solid #f6EAEA;
   border-left: 1500px solid transparent;
-  transform: translateX(28%);
 `;
 
 const StyledButton = styled.button `
@@ -179,7 +183,6 @@ const Home = () => {
   return (
     <div>
       <StyledDiagonalDiv>
-
       </StyledDiagonalDiv>
       <StyledCanbanio src = {canbanio}/>
       <Grid
@@ -196,17 +199,17 @@ const Home = () => {
         </Grid>
         <Grid item xs={7} sm={6} lg={5}>
           <StyledLandingHeader>
-            Meet Ban
+            Meet Canban.io
           </StyledLandingHeader>
           <StyledLandingAbout>
-            your can-do buddy to help organize your projects better,keep your commit history in check, and git-organized!
+            your can-do buddy to help organize your projects better, keep your commit history in check, and git-organized!
           </StyledLandingAbout>
 
         </Grid>
         </Grid>
         <Grid container>
           <StyledButton>
-            Sign-up now!
+            Learn more!
           </StyledButton>
 
 
@@ -223,8 +226,8 @@ const Home = () => {
           
           <Grid item lg={3.5}>
             <StyledInfoCard color={"#fee4cb"}>
-              <StyledInfoCardText fontSize = {"25"}>
-                Link your github
+              <StyledInfoCardText fontSize = {"25"} fontWeight = {700}>
+                Link your Github
               </StyledInfoCardText>
               <StyledInfoCardImage src = {githubLogo} imageWidth = {"200"}/>
               <StyledInfoCardText fontSize = {"20"}>
@@ -236,7 +239,7 @@ const Home = () => {
 
           <Grid item lg={3.5}>
             <StyledInfoCard color={"#dbf6fd"}>
-              <StyledInfoCardText fontSize = {"25"}>
+              <StyledInfoCardText fontSize = {"25"} fontWeight = {700}>
                 Include syntax in your commit message
               </StyledInfoCardText>
               <StyledInfoCardImage src = {githubScreenshot} imageWidth = {"400"}/>
@@ -248,7 +251,7 @@ const Home = () => {
 
           <Grid item lg={3.5}>
             <StyledInfoCard color={"#c8f7dc"} >
-              <StyledInfoCardText fontSize = {"25"}>
+              <StyledInfoCardText fontSize = {"25"} fontWeight = {700}>
                 Reap the benefits!
               </StyledInfoCardText>
 

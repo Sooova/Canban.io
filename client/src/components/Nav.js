@@ -11,7 +11,7 @@ const Header = styled.header`
 
 const StyledNav = styled.nav`
 	display: flex;
-	background-color: #f6EAEA;
+	// background-color: #f6EAEA;
 `;
 
 const NavigationList = styled.ul`
@@ -40,8 +40,9 @@ const NavigationItem = styled.li`
 	}
 `;
 
-const Canbanio = styled.img `
-	width:200px;
+const StyledCanbanio = styled.img `
+	width:250px;
+	display:block;
 `;
 
 function AuthNav() {
@@ -81,12 +82,15 @@ function Nav() {
 			<NavigationList>
 				<NavigationItem>
 					<Link to="/">
-						Home
+					<StyledCanbanio src = {canbanio}/>
 					</Link>
 				</NavigationItem>
-				
+				<NavigationItem>
+
+				</NavigationItem>
 			</NavigationList>
 			<AuthNav />
+			
 		</StyledNav>
     </Header>
   );

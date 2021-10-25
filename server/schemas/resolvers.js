@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
+const {PostCardsSchema} = require('../models/cards')
 
 const resolvers = {
   Query: {
@@ -12,6 +13,12 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
+    hello: () => {
+      return 'Hello World';
+    },
+    getAllCards: async() => {
+      return await PostCardsSchema.find();
+    }
   },
   Mutation: {
     addUser: async (parent, args) => {

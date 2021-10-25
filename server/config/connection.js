@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 require('dotenv').config()
 
-const dbURI = process.env.MONGODB_URI || 'mongodb://localhost/fffinalprojectsetupdemo'
+const dbURI = process.env.MONGODB_URI || 'mongodb://localhost/fffinalprojecttest'
 
 console.log('DB URI', dbURI)
 
