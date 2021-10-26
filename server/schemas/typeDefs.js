@@ -6,7 +6,7 @@ const typeDefs = gql`
     email: String
   }
 
-  type PostCards {
+  type Cards {
     id: ID
     title: String
     creationDate: String
@@ -22,7 +22,7 @@ const typeDefs = gql`
   type Query {
     user: User,
     hello: String,
-    getAllCards: [PostCards]
+    getAllCards: [Cards]
   }
 
 

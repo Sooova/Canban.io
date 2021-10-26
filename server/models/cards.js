@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CardsSchema = new mongoose.Schema({
+const cardsSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -19,6 +19,6 @@ const CardsSchema = new mongoose.Schema({
     }
 })
 
-const PostCardsSchema = mongoose.model('post', CardsSchema);
-module.exports = PostCardsSchema;
+const Cards = mongoose.model('Cards', cardsSchema);
+module.exports = Cards;
 
