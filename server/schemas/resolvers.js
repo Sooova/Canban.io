@@ -1,7 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
+const { User, Card, Workspace } = require('../models');
 const { signToken } = require('../utils/auth');
-const { Cards } = require('../models/cards');
 
 const resolvers = {
   Query: {
@@ -17,7 +16,13 @@ const resolvers = {
       return 'Hello World';
     },
     getAllCards: async() => {
-      return await Cards.find();
+      return await Card.find();
+    },
+    getWorkspaceCards: async(_parent,{workspaceID},_context,_info) => {
+      return await Card.find({workspaceID: workspaceID})
+    },
+    getWorkspaces: async() => {
+      return await Workspace.find();
     }
   },
   Mutation: {
@@ -50,6 +55,37 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    createCard: async (parent, args, context, info) => {
+      const {title, state, workspaceID} = args.Card;
+      const card = new Card({title, state, workspaceID})
+      await card.save();
+      return card
+    },
+    deleteCard: async (parent, args, context, info) => {
+      const {id} = args;
+      await Card.findByIdAndDelete(id);
+      return "Post found, and deleted";
+    },
+    updateCard: async (parent, args, context, info) => {
+      const {title, state, workspaceID} = args.Card;
+      const {id} = args;
+      const updates = {};
+      if (title !== undefined) {
+        updates.title = title
+      }
+      if (state !== undefined) {
+        updates.state = state
+      }
+      if (workspaceID !== undefined) {
+        updates.workspaceID = workspaceID
+      }
+      const card = await Card.findByIdAndUpdate(
+        id,
+        updates,
+        { new: true}
+        )
+      return card;
     }
   }
 };

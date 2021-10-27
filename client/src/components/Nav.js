@@ -40,7 +40,7 @@ const NavigationItem = styled.li`
 	}
 `;
 
-const StyledCanbanio = styled.img `
+const StyledCanbanio = styled.img`
 	width:250px;
 	display:block;
 `;
@@ -75,25 +75,28 @@ function AuthNav() {
 	}
 }
 
-function Nav() {
-  return (
-    <Header>
-		<StyledNav>
-			<NavigationList>
-				<NavigationItem>
-					<Link to="/">
-					<StyledCanbanio src = {canbanio}/>
-					</Link>
-				</NavigationItem>
-				<NavigationItem>
+//Improve pathname handling for logo
 
-				</NavigationItem>
-			</NavigationList>
-			<AuthNav />
-			
-		</StyledNav>
-    </Header>
-  );
+function Nav() {
+	return (
+		<Header>
+			<StyledNav>
+				<NavigationList>
+					<NavigationItem>
+						{window.location.pathname !== "/componenttesting" ? 
+						<Link to="/">
+							<StyledCanbanio src={canbanio} />
+						</Link>: "" }
+					</NavigationItem>
+					<NavigationItem>
+
+					</NavigationItem>
+				</NavigationList>
+				<AuthNav />
+
+			</StyledNav>
+		</Header>
+	);
 }
 
 export default Nav;

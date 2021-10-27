@@ -5,10 +5,10 @@ const cardsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    creationDate: {
-        type: Date,
-        required: true,
-    },
+    // creationDate: {
+    //     type: Date,
+    //     required: true,
+    // },
     state: {
         type: String,
         required: true,
@@ -17,8 +17,8 @@ const cardsSchema = new mongoose.Schema({
         type: Number,
         required: true,
     }
-})
+}, {timestamps: true})
 
-const Cards = mongoose.model('Cards', cardsSchema);
-module.exports = Cards;
+const Card = mongoose.model('Card', cardsSchema);
+module.exports = Card;
 

@@ -157,27 +157,6 @@ const StyledButton = styled.button `
   margin-top:5%;
 `;
 
-const LandingInfoCardImage = props => <StyledInfoCardImage/>
-const LandingHeader = props => <StyledLandingHeader />
-const LandingAbout = props => <StyledLandingAbout />
-const LandingDivAbout = props => <StyledDivAbout />
-const LandingCanbanLogo = props => <StyledCanbanImg />
-const LandingBottomInfoDiv = props => <StyledBottomInfoDiv />
-const LandingBottomInfoCard = props => <StyledInfoCard />
-const LandingInfoCardText = props => <StyledInfoCardText />
-const LandingSubHeading = props => <StyledLandingSubHeading />
-
-export {
-  LandingHeader,
-  LandingAbout,
-  LandingDivAbout,
-  LandingCanbanLogo,
-  LandingBottomInfoDiv,
-  LandingBottomInfoCard,
-  LandingInfoCardText,
-  LandingSubHeading,
-  LandingInfoCardImage
-}
 
 const Home = () => {
   return (

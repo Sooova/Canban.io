@@ -15,6 +15,7 @@ import Nav from './components/Nav';
 import { StoreProvider } from './state/GlobalState';
 import { LandingHeader } from './components/LandingHeader';
 import ErrorPage from './pages/404 page';
+import sidebar from './components/Sidebar';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -46,6 +47,7 @@ function App() {
             <Route exact path = "/404" component={ErrorPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path = "/componenttesting" component = {sidebar}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>
