@@ -12,10 +12,11 @@ const StyledInfoCardContainer = styled.div`
   box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
   display:inline-flex;
   position:relative;
-  margin-left:300px;
   justify-content: center;
   align-items: center;
-  min-width:200px;
+  margin:5px;
+
+  max-width:200px;
 `;
 
 const StyledCardTitle = styled.h2 `
@@ -70,10 +71,10 @@ function CardKanban() {
         <div>
             <StyledInfoCardContainer>
                 <StyledCardDate>
-                    september 7th, 2021
+                    Sept 7th, 2021
                 </StyledCardDate>
                 <StyledCardTitle>
-                    Fix login handler.
+                    Fix react routing method and login handler
                 </StyledCardTitle>
                 
                 <StyledTagContainer>

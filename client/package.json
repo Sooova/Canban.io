@@ -16,10 +16,13 @@
     "graphql": "^14.6.0",
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "4.0.2",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.12"
   },
   "scripts": {
     "start": "react-scripts start",
