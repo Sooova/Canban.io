@@ -10,14 +10,25 @@ export const QUERY_USER = gql`
 
 
 export const FETCH_CARDS = gql `
-  query {
+  query getWorkspaceCards($workspaceID: Int){
     getWorkspaceCards(workspaceID: $workspaceID) {
+      id
       title
       state
       updatedAt
     }
   }
 `;
+
+// const GET_DOG_PHOTO = gql`
+//   query Dog($breed: String!) {
+//     dog(breed: $breed) {
+//       id
+//       displayImage
+//     }
+//   }
+// `;
+
 
 export const FETCH_ALL_CARDS = gql `
   query {
@@ -30,12 +41,3 @@ export const FETCH_ALL_CARDS = gql `
     }
   }
 `;
-
-
-{data.map((cardData) => {
-  return (
-      <StyledCardDate>
-          {cardData.updatedAt}
-      </StyledCardDate>
-  )
-})}

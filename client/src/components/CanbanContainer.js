@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Auth from "../utils/auth";
 import styled from 'styled-components';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -30,18 +30,10 @@ margin-bottom:2%;
 }
 `;
 
-const itemsFromBackend = [
-    { id: uuid(), content: "First task" },
-    { id: uuid(), content: "Second task" },
-    { id: uuid(), content: "Third task" },
-    { id: uuid(), content: "Fourth task" },
-    { id: uuid(), content: "Fifth task" }
-];
-
 const columnsFromBackend = {
     [uuid()]: {
         name: "To do",
-        items: itemsFromBackend
+        items: []
     },
     [uuid()]: {
         name: "In Progress",
@@ -90,11 +82,53 @@ const onDragEnd = (result, columns, setColumns) => {
     }
 };
 
-
+const columnsInitial = {
+    toDo: {
+        name: "toDo",
+        items: []
+    },
+    inProgress: {
+        name: "inProgress",
+        items: []
+    },
+    complete: {
+        name: "complete",
+        items: []
+    }
+}
 
 
 function CanbanContainer() {
-    const [columns, setColumns] = useState(columnsFromBackend);
+    const [columns, setColumns] = useState(columnsInitial);
+
+
+    const { loading, error, data } = useQuery(FETCH_CARDS, {
+        variables: {
+            workspaceID: 1234
+        }
+    });
+
+    const sortCards = function (data) {
+        console.log(columns)
+
+        const columnCopy = { ...columns }
+
+        data.getWorkspaceCards.forEach((card) => {
+            const currentCardState = card.state;
+            columnCopy[currentCardState].items.push(card)
+        })
+
+        setColumns(columnCopy)
+        console.log(columns)
+    }
+
+
+    useEffect(() => {
+        if (data) {
+            sortCards(data);
+        }
+    }, [data])
+
     return (
         <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
             <DragDropContext
@@ -144,9 +178,14 @@ function CanbanContainer() {
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}
                                                                     >
-                                                                        <CardKanban>
+                                                                        <CardKanban
+                                                                            key= {item.id}
+                                                                            id = {item.id}
+                                                                            state = {column.name}
+                                                                            title = {item.title}
+                                                                            time = {item.updatedAt}
+                                                                        />
 
-                                                                        </CardKanban>
                                                                     </div>
                                                                 );
                                                             }}

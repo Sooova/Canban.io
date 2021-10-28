@@ -50,7 +50,7 @@ function App() {
             <Route exact path = "/404" component={ErrorPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path = "/componenttesting" component = {CardKanban}/>
+            <Route exact path = "/componenttesting" component = {sidebar}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>

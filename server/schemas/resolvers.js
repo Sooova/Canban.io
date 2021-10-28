@@ -12,6 +12,11 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
+    isUserAuthWorkspace: async(parent, args, context) => {
+      if (context.user._id === args.adminUser) {
+        
+      }
+    },
     hello: () => {
       return 'Hello World';
     },
