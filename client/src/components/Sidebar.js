@@ -149,7 +149,7 @@ function sidebar() {
                     </StyledP>
                 </StyledSidebarLi>
             </StyledSidebarContainer>
-
+                        
             <RightSidebar>
 
             </RightSidebar>

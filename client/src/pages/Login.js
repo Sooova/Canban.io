@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '../gql/mutations';
 import Auth from '../utils/auth';
-
 import { Container } from "../components/Container";
 import { H2 } from '../components/Text';
 import { Breadcrumb } from '../components/Breadcrumb';

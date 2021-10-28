@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { uuid } from "uuidv4";
 import CardKanban from "./CardKanban";
-
+import { useQuery } from "@apollo/client";
+import { FETCH_CARDS } from "../gql/queries";
 
 const StyledCanbanParentContainer = styled.div`
 
@@ -28,8 +29,6 @@ margin-bottom:2%;
   font-size:15px
 }
 `;
-
-
 
 const itemsFromBackend = [
     { id: uuid(), content: "First task" },
@@ -90,6 +89,9 @@ const onDragEnd = (result, columns, setColumns) => {
         });
     }
 };
+
+
+
 
 function CanbanContainer() {
     const [columns, setColumns] = useState(columnsFromBackend);

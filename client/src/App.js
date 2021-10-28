@@ -18,6 +18,7 @@ import ErrorPage from './pages/404 page';
 import sidebar from './components/Sidebar';
 import CardKanban from './components/CardKanban';
 import CanbanContainer from './components/CanbanContainer';
+import FetchComponent from './components/Fetchcardtesting';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -49,7 +50,7 @@ function App() {
             <Route exact path = "/404" component={ErrorPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path = "/componenttesting" component = {CanbanContainer}/>
+            <Route exact path = "/componenttesting" component = {CardKanban}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>
