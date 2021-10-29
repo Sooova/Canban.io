@@ -5,10 +5,6 @@ const cardsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // creationDate: {
-    //     type: Date,
-    //     required: true,
-    // },
     state: {
         type: String,
         required: true,

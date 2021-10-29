@@ -8,6 +8,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import logo from '../assets/images/canban transparent.png'
 import { Link } from "react-router-dom";
 import RightSidebar from "./RightSidebar";
+import CanbanContainer from "./CanbanContainer";
 
 const StyledCanbanio = styled.img `
 	width:30px;
@@ -149,6 +150,8 @@ function sidebar() {
                     </StyledP>
                 </StyledSidebarLi>
             </StyledSidebarContainer>
+
+            <CanbanContainer/>
                         
             <RightSidebar>
 

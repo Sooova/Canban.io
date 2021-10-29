@@ -6,6 +6,9 @@ import { uuid } from "uuidv4";
 import CardKanban from "./CardKanban";
 import { useQuery } from "@apollo/client";
 import { FETCH_CARDS } from "../gql/queries";
+import { borderRadius } from "@mui/system";
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import IconButton from '@mui/material/IconButton';
 
 const StyledCanbanParentContainer = styled.div`
 
@@ -130,7 +133,31 @@ function CanbanContainer() {
     }, [data])
 
     return (
-        <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+        <div style={{ display: "flex", justifyContent: "center", height: "100%" ,
+        backgroundColor: "white" ,
+        borderRadius: "30px",
+        maxWidth: "900px",
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: "5%",
+        boxShadow: "0 2px 6px rgba(0, 0, 0, .3)",
+        height: "700px",
+        position: "relative",
+        
+        }}>
+            <IconButton sx = {{
+                position: "absolute",
+                right: "20px",
+                top:"20px",
+
+            }}>
+            <AddCircleOutlineRoundedIcon 
+                fontSize = "large" color = "rgb(31,28,46)" sx = {{
+                    transform: "scale(1.2)",
+                }}
+            />
+            </IconButton>
+
             <DragDropContext
                 onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
             >
@@ -140,11 +167,13 @@ function CanbanContainer() {
                             style={{
                                 display: "flex",
                                 flexDirection: "column",
-                                alignItems: "center"
+                                alignItems: "center",
                             }}
                             key={columnId}
                         >
-                            <StyledCanbanHeadings>
+                            <StyledCanbanHeadings style = {{
+                                marginTop: "30px"
+                            }}>
                                 {column.name}
                             </StyledCanbanHeadings>
                             <div style={{ margin: 8 }}>
@@ -155,12 +184,16 @@ function CanbanContainer() {
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
                                                 style={{
+                                                    display:"flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    borderRadius: "30px",
                                                     background: snapshot.isDraggingOver
                                                         ? "lightblue"
-                                                        : "lightgrey",
+                                                        : "",
                                                     padding: 4,
                                                     width: 250,
-                                                    height: 500,
+                                                    height: 625,
                                                     overflowY: "auto",
                                                 }}
                                             >

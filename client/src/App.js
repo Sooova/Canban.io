@@ -19,6 +19,7 @@ import sidebar from './components/Sidebar';
 import CardKanban from './components/CardKanban';
 import CanbanContainer from './components/CanbanContainer';
 import FetchComponent from './components/Fetchcardtesting';
+import NewCard from './components/NewCard';
 
 const httpLink = createHttpLink({
   uri: '/graphql',

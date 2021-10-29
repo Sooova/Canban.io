@@ -3,8 +3,9 @@ import Auth from "../utils/auth";
 import styled from 'styled-components';
 import { ThemeProvider } from "styled-components";
 import moment from "moment";
-import { useQuery } from "@apollo/client";
-import { FETCH_CARDS } from "../gql/queries";
+import CardKanban from "./CardKanban";
+import ContentEditable from 'react-contenteditable'
+import { useState, useRef } from "react";
 
 
 const StyledInfoCardContainer = styled.div`
@@ -66,7 +67,27 @@ padding:5px;
 `;
 
 
-function CardKanban({ id, state, title, updatedAt}) {
+
+
+const NewCard = () => {
+    const cardText = useRef('untitled')
+    const cardState = ['toDo', 'inProgress', 'complete']
+    const [CardState, setCardState] = useState(cardState[2])
+    const [cardStateIndex, setCardStateIndex] = useState(0)
+    const handleChange = (e) => {
+        cardText.current = e.target.value;
+    };
+
+    const handleBlur = () => {
+        console.log(cardText.current);
+    }
+
+    const handleState = () => {
+        setCardStateIndex((cardStateIndex+1)%3);
+        console.log(cardStateIndex);
+        setCardState(cardState[cardStateIndex])
+    }
+
     const themeState = {
         complete: {
             bg: "#c8f7dc",
@@ -82,31 +103,32 @@ function CardKanban({ id, state, title, updatedAt}) {
         }
     }
 
-
-
     return (
         <div>
-            <ThemeProvider theme={themeState[state]}>
+            <ThemeProvider theme={themeState[CardState]}>
                 <StyledInfoCardContainer>
                     <StyledCardDate>
-                        {/* <Moment unix format="YYYY/MM/DD">{cardData.updatedAt}</Moment> */}
-                        {moment(updatedAt).format("MMM Do")}
+                        {moment().format("MMM Do")}
                     </StyledCardDate>
                     <StyledCardTitle>
-                        {title}
+                        <ContentEditable
+                            html={cardText.current}
+                            onBlur={handleBlur}
+                            disabled={false}
+                            onChange={handleChange}
+                        />
                     </StyledCardTitle>
 
-                    <StyledTagContainer>
+                    <StyledTagContainer onClick={handleState}>
                         <StyledTagName>
-                            {state}
+                            {CardState}
                         </StyledTagName>
                     </StyledTagContainer>
                 </StyledInfoCardContainer>
             </ThemeProvider>
-
-
         </div>
     )
+
 }
 
-export default CardKanban;
+export default NewCard;
