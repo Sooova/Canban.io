@@ -6,7 +6,10 @@ import moment from "moment";
 import CardKanban from "./CardKanban";
 import ContentEditable from 'react-contenteditable'
 import { useState, useRef } from "react";
-
+import { ADD_CARD } from "../gql/mutations";
+import { useMutation } from "@apollo/client";
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import { IconButton } from "@mui/material";
 
 const StyledInfoCardContainer = styled.div`
   border-radius: 30px;
@@ -21,6 +24,8 @@ const StyledInfoCardContainer = styled.div`
   align-items: center;
   margin:5px;
   width:180px;
+  transform: scale(1.25);
+  margin-top:30px;
 `;
 
 const StyledCardTitle = styled.h2`
@@ -57,6 +62,10 @@ display: inline-block;
 position:absolute;
 right:20px;
 bottom:7%;
+&:hover {
+    opacity:0.7;
+    cursor:pointer;
+}
 `;
 
 const StyledTagName = styled.p`
@@ -69,7 +78,7 @@ padding:5px;
 
 
 
-const NewCard = () => {
+const NewCard = (props) => {
     const cardText = useRef('untitled')
     const cardState = ['toDo', 'inProgress', 'complete']
     const [CardState, setCardState] = useState(cardState[2])
@@ -83,9 +92,27 @@ const NewCard = () => {
     }
 
     const handleState = () => {
-        setCardStateIndex((cardStateIndex+1)%3);
+        setCardStateIndex((cardStateIndex + 1) % 3);
         console.log(cardStateIndex);
         setCardState(cardState[cardStateIndex])
+    }
+
+    const [mutateCard] = useMutation(ADD_CARD);
+
+    const handleCardSubmit = async (err) => {
+        try {
+            const mutationResponse = await mutateCard({
+                variables: {
+                    title: cardText.current.slice(0,cardText.current.length-4),
+                    state: CardState,
+                    workspaceID: parseInt(window.location.search.substring(1)) }
+            });
+            
+            props.callback();
+        }
+        catch (err){
+            console.log(err)
+        }
     }
 
     const themeState = {
@@ -104,9 +131,26 @@ const NewCard = () => {
     }
 
     return (
-        <div>
+        <div style = {{
+            display: "flex",
+            justifyContent: "center"
+        }}>
             <ThemeProvider theme={themeState[CardState]}>
                 <StyledInfoCardContainer>
+                    <IconButton
+                        onClick = {handleCardSubmit}
+                        sx={{
+                            position: "absolute",
+                            top: "7%",
+                            right: "20px",
+                            opacity: "0.8"
+                        }}
+                    >
+                        <SaveOutlinedIcon
+                            fontSize="large"
+                        />
+                    </IconButton>
+
                     <StyledCardDate>
                         {moment().format("MMM Do")}
                     </StyledCardDate>

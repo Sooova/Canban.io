@@ -6,7 +6,7 @@ const workspaceSchema = new mongoose.Schema({
         required: true,
     },
     adminUser: {
-        type: Number,
+        type: String,
         required: true,
     },
     repositoryName: {

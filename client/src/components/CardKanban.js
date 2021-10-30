@@ -5,7 +5,18 @@ import { ThemeProvider } from "styled-components";
 import moment from "moment";
 import { useQuery } from "@apollo/client";
 import { FETCH_CARDS } from "../gql/queries";
+import { DELETE_CARD } from "../gql/mutations";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { IconButton } from "@mui/material";
+import { useMutation } from "@apollo/client";
 
+const StyledDeleteContainer = styled.div`
+    display:none;
+    opacity:50%;
+    &:hover {
+        opacity:100%
+      }
+`;
 
 const StyledInfoCardContainer = styled.div`
   border-radius: 30px;
@@ -20,6 +31,10 @@ const StyledInfoCardContainer = styled.div`
   align-items: center;
   margin:5px;
   width:180px;
+
+  &:hover ${StyledDeleteContainer} {
+    display: block;
+  }
 `;
 
 const StyledCardTitle = styled.h2`
@@ -65,8 +80,7 @@ font-size:10px;
 padding:5px;
 `;
 
-
-function CardKanban({ id, state, title, updatedAt}) {
+function CardKanban({ id, state, title, updatedAt, callback }) {
     const themeState = {
         complete: {
             bg: "#c8f7dc",
@@ -82,12 +96,44 @@ function CardKanban({ id, state, title, updatedAt}) {
         }
     }
 
+    
+    const [deleteCard] = useMutation(DELETE_CARD);
+
+    const handleCardDelete = async (err) => {
+        try {
+            console.log(id);
+            const mutationResponse = await deleteCard({
+                variables: {
+                    id: id }
+            });
+            
+            callback();
+        }
+        catch (err){
+            console.log(err)
+        }
+    }
+    
 
 
     return (
         <div>
             <ThemeProvider theme={themeState[state]}>
                 <StyledInfoCardContainer>
+
+                    <StyledDeleteContainer>
+                    <IconButton onClick = {handleCardDelete}
+                        sx={{
+                            position: "absolute",
+                            top: "2%",
+                            right: "12px",
+                        }}
+                    >
+                        <HighlightOffIcon
+                            fontSize="large"
+                        />
+                        </IconButton>
+                    </StyledDeleteContainer>
                     <StyledCardDate>
                         {/* <Moment unix format="YYYY/MM/DD">{cardData.updatedAt}</Moment> */}
                         {moment(updatedAt).format("MMM Do")}

@@ -4,8 +4,19 @@ export const QUERY_USER = gql`
   {
     user {
       email
+      githubUser
     }
   }
+`;
+
+export const GET_WORKSPACES = gql`
+{
+  getWorkspaces {
+    adminUser
+    title
+    repositoryName
+  }
+}
 `;
 
 

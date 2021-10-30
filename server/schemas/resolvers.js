@@ -5,6 +5,8 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
   Query: {
     user: async (parent, args, context) => {
+      console.log('test');
+      console.log(context.user);
       if (context.user) {
         const user = await User.findById(context.user._id);
         return user;
@@ -12,20 +14,27 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    hello: () => {
-      return 'Hello World';
-    },
     getAllCards: async() => {
       return await Card.find();
     },
     getWorkspaceCards: async(_parent,{workspaceID},_context,_info) => {
       return await Card.find({workspaceID: workspaceID})
     },
-    getWorkspaces: async() => {
-      return await Workspace.find();
+    getWorkspaces: async(parent, args, context) => {
+      console.log(context.user);
+      if (context.user) {
+        return await Workspace.find({adminUser:context.user._id});
+      }
+      throw new AuthenticationError('Not logged in');
     }
   },
   Mutation: {
+    addWorkspace: async(parent, args, context) => {
+      if (context.user) {
+        return await Workspace.create({...args, adminUser: context.user._id});
+      }
+      throw new AuthenticationError('Not logged in');
+    },
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
@@ -57,8 +66,8 @@ const resolvers = {
       return { token, user };
     },
     createCard: async (parent, args, context, info) => {
-      const {title, state, workspaceID} = args.Card;
-      const card = new Card({title, state, workspaceID})
+      const {title, state, workspaceID} = args;
+      const card = new Card(args)
       await card.save();
       return card
     },
@@ -68,7 +77,7 @@ const resolvers = {
       return "Post found, and deleted";
     },
     updateCard: async (parent, args, context, info) => {
-      const {title, state, workspaceID} = args.Card;
+      const {title, state, workspaceID} = args;
       const {id} = args;
       const updates = {};
       if (title !== undefined) {

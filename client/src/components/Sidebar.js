@@ -92,10 +92,9 @@ const SidebarLi = props => <StyledSidebarLi />
 const SidebarContainer = props => <StyledSidebarContainer />
 const SidebarH1 = props => <StyledSidebarH1 />
 
-function sidebar() {
+function sidebar({parentRef}) {
     return (
-        <div>
-            <StyledSidebarContainer>
+            <StyledSidebarContainer ref={parentRef}>
                 <Link to="/">
                 <StyledCanbanio src = {logo}/>
                 </Link>
@@ -150,13 +149,6 @@ function sidebar() {
                     </StyledP>
                 </StyledSidebarLi>
             </StyledSidebarContainer>
-
-            <CanbanContainer/>
-                        
-            <RightSidebar>
-
-            </RightSidebar>
-        </div>
 
     )
 }

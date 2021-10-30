@@ -20,6 +20,9 @@ import CardKanban from './components/CardKanban';
 import CanbanContainer from './components/CanbanContainer';
 import FetchComponent from './components/Fetchcardtesting';
 import NewCard from './components/NewCard';
+import ProjectCard from './components/ProjectCards';
+import Dashboard from './pages/dashboard';
+import NewWorkspace from './components/NewWorkspace';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -51,7 +54,7 @@ function App() {
             <Route exact path = "/404" component={ErrorPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path = "/componenttesting" component = {sidebar}/>
+            <Route exact path = "/componenttesting" component = {Dashboard}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>
