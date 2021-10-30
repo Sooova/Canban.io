@@ -23,8 +23,8 @@ const StyledInfoCardContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin:5px;
-  width:180px;
-  transform: scale(1.25);
+  width:200px;
+  height:100px;
   margin-top:30px;
 `;
 
@@ -105,7 +105,7 @@ const NewCard = (props) => {
                 variables: {
                     title: cardText.current.slice(0,cardText.current.length-4),
                     state: CardState,
-                    workspaceID: parseInt(window.location.search.substring(1)) }
+                    workspaceID: window.location.search.substring(1) }
             });
             
             props.callback();

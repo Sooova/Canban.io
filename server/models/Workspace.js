@@ -12,6 +12,10 @@ const workspaceSchema = new mongoose.Schema({
     repositoryName: {
         type: String,
         required: false,
+    },
+    workspaceColor: {
+        type: String, 
+        required: false,
     }
 }, {timestamps: true})
 

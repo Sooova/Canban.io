@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import RightSidebar from "./RightSidebar";
 import CanbanContainer from "./CanbanContainer";
 
-const StyledCanbanio = styled.img `
+const StyledCanbanio = styled.img`
 	width:30px;
 	display:inline-block;
 
@@ -24,12 +24,11 @@ const StyledSidebarContainer = styled.div`
     height: 100%;
     width:12%;
     position: fixed;
-    background-color: #FCF6F6;
-    border-right: 2px solid #f6EAEA;
+    background-color: #FFC4C4;
     padding: 30px;
 
     @media (max-width: 660px) {
-        width:4%;
+        width:2%;
         padding:20px;
         padding-top:10%;
     }
@@ -63,6 +62,8 @@ cursor: pointer;
 `;
 
 const StyledP = styled.p`
+text-decoration:none;
+color: rgb(31, 28, 46);
 @media (max-width: 660px) {
     display:none;
 }
@@ -86,69 +87,107 @@ line-height:150%;
 }
 `;
 
+const StyledBottomNav = styled.div`
+    position: absolute;
+    bottom: 70px;
+    @media (max-width: 660px) {
+        display:none;
+    }
+`;
+
 const SidebarP = props => <StyledP />
 const SidebarUl = props => <StyledUl />
 const SidebarLi = props => <StyledSidebarLi />
 const SidebarContainer = props => <StyledSidebarContainer />
 const SidebarH1 = props => <StyledSidebarH1 />
 
-function sidebar({parentRef}) {
+function sidebar({ parentRef }) {
+
     return (
-            <StyledSidebarContainer ref={parentRef}>
-                <Link to="/">
-                <StyledCanbanio src = {logo}/>
-                </Link>
-                <StyledSidebarH1>
-                    Hey, Alexandra!
-                </StyledSidebarH1>
+        <div>
 
-                <StyledSidebarLi>
-                    <HomeOutlinedIcon fontSize="medium"
-                        sx={{
-                            marginRight: ["10px"]
+        <StyledSidebarContainer ref={parentRef}>
+            <StyledSidebarLi>
+            <Link to="/">
+                <StyledCanbanio src={logo} />
+            </Link>
+            </StyledSidebarLi>
+            <StyledSidebarH1>
+                Hey, Alexandra!
+            </StyledSidebarH1>
 
-                        }} />
-                    <StyledP>
-                        Home
-                    </StyledP>
-                </StyledSidebarLi>
+            <StyledSidebarLi>
+                <HomeOutlinedIcon fontSize="medium"
+                    sx={{
+                        marginRight: ["10px"]
 
-                <StyledSidebarLi>
-                    <DvrIcon fontSize="medium"
-                        sx={{
-                            marginRight: ["10px"]
+                    }} />
+                <StyledP>
+                    Home
+                </StyledP>
+            </StyledSidebarLi>
 
-                        }}
-                    />
+            <StyledSidebarLi>
+                <DvrIcon fontSize="medium"
+                    sx={{
+                        marginRight: ["10px"]
+
+                    }}
+                />
+
+                <Link to="/dashboard" style = {{
+                    textDecoration: "none",
+                    color: "color: rgb(31, 28, 46)"
+                }}>
                     <StyledP>
                         Workspaces
                     </StyledP>
-                </StyledSidebarLi>
+                </Link>
 
-                <StyledSidebarLi>
-                    <PersonOutlineIcon fontSize="medium"
-                        sx={{
-                            marginRight: ["10px"]
+            </StyledSidebarLi>
 
-                        }}
-                    />
-                    <StyledP>
-                        Profile
-                    </StyledP>
-                </StyledSidebarLi>
+            <StyledSidebarLi>
+                <PersonOutlineIcon fontSize="medium"
+                    sx={{
+                        marginRight: ["10px"]
 
-                <StyledSidebarLi>
-                    <SettingsOutlinedIcon fontSize="medium"
-                        sx={{
-                            marginRight: ["10px"]
+                    }}
+                />
+                <StyledP>
+                    Profile
+                </StyledP>
+            </StyledSidebarLi>
 
-                        }}
-                    />
-                    <StyledP>
-                        Settings
-                    </StyledP>
-                </StyledSidebarLi>
-            </StyledSidebarContainer>
+            <StyledSidebarLi>
+                <SettingsOutlinedIcon fontSize="medium"
+                    sx={{
+                        marginRight: ["10px"]
+
+                    }}
+                />
+                <StyledP>
+                    Settings
+                </StyledP>
+            </StyledSidebarLi>
+            <StyledBottomNav>
+                <ul>
+                    <StyledSidebarLi onClick={() => Auth.logout()}>
+                        Logout
+                    </StyledSidebarLi>
+                    <StyledSidebarLi>
+                        Support
+                    </StyledSidebarLi>
+                    <StyledSidebarLi>
+                        Documentation
+                    </StyledSidebarLi>
+                    <StyledSidebarLi>
+                        Privacy Policy
+                    </StyledSidebarLi>
+                </ul>
+            </StyledBottomNav>
+        </StyledSidebarContainer>
+        </div>
+
 
     )
 }

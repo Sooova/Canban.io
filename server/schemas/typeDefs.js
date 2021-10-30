@@ -11,7 +11,7 @@ const typeDefs = gql`
     id: ID
     title: String
     state: String
-    workspaceID: Int
+    workspaceID: ID
     updatedAt: String
   }
 
@@ -20,6 +20,7 @@ const typeDefs = gql`
     title: String
     adminUser: ID
     repositoryName: String
+    updatedAt: String
   }
 
   type Auth {
@@ -31,24 +32,26 @@ const typeDefs = gql`
     user: User,
     hello: String,
     getAllCards: [Card]
-    getWorkspaceCards(workspaceID: Int): [Card]
+    getWorkspaceCards(workspaceID: ID): [Card]
     getWorkspaces: [Workspace]
   }
 
   input CardInput {
     title: String
     state: String
-    workspaceID: Int
+    workspaceID: ID
   }
 
   type Mutation {
+    deleteWorkspace(id: ID!, workspaceID: ID!): String
     addWorkspace(title: String!, repositoryName: String): Workspace
     addUser(email: String!, password: String!): Auth
     updateUser(email: String, password: String): User
     login(email: String!, password: String!): Auth
-    createCard(title: String, state: String, workspaceID: Int): Card
+    createCard(title: String!, state: String!, workspaceID: ID!): Card
     deleteCard(id: ID): String
-    updateCard(id:ID, state: String, workspaceID: Int): Card
+    updateCard(id:ID, state: String, id: ID!): Card
+    updateWorkspace(id:ID, title: String, repositoryName: String): Workspace
   }
 `;
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { color, shape } from '../styles';
 import canbanio from '../assets/images/canbanio.png';
 import styled from 'styled-components';
+import { Navigation } from "@mui/icons-material";
 
 const Header = styled.header`
 	// padding: 20px;
@@ -55,6 +56,10 @@ function AuthNav() {
 						Logout
 					</a>
 				</NavigationItem>
+				{window.location.pathname == "/" ? 
+				<NavigationItem>
+					Dashboard
+				</NavigationItem>:""}
 			</NavigationList>
 		);
 	} else {
@@ -83,7 +88,7 @@ function Nav() {
 			<StyledNav>
 				<NavigationList>
 					<NavigationItem>
-						{window.location.pathname !== "/componenttesting" ? 
+						{window.location.pathname == "/" ? 
 						<Link to="/">
 							<StyledCanbanio src={canbanio} />
 						</Link>: "" }

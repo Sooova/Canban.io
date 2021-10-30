@@ -10,7 +10,7 @@ const cardsSchema = new mongoose.Schema({
         required: true,
     },
     workspaceID: {
-        type: Number,
+        type: String,
         required: true,
     }
 }, {timestamps: true})

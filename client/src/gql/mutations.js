@@ -32,7 +32,7 @@ export const ADD_CARD = gql `
   mutation createCard(
     $title: String!
     $state: String!
-    $workspaceID: Int!
+    $workspaceID: ID!
   ) {
     createCard(
       title: $title
@@ -74,6 +74,23 @@ export const UPDATE_CARD = gql `
   }
 `; 
 
+export const UPDATE_WORKSPACE = gql `
+  mutation updateWorkspace(
+    $id: ID!
+    $title: String
+    $repositoryName: String
+  ){
+    updateWorkspace(
+      id: $id
+      title: $title
+      repositoryName: $repositoryName
+    ) {
+      title
+      repositoryName
+    }
+  }
+`;
+
 export const CREATE_WORKSPACE = gql `
   mutation addWorkspace(
     $title: String!
@@ -88,3 +105,13 @@ export const CREATE_WORKSPACE = gql `
     }
   }
 `; 
+
+export const DELETE_WORKSPACE = gql `
+  mutation deleteWorkspace(
+    $id: ID!
+  ) {
+    deleteWorkspace(
+      id: $id
+    )
+  }
+`;

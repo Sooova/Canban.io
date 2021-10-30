@@ -29,6 +29,14 @@ const resolvers = {
     }
   },
   Mutation: {
+    deleteWorkspace: async(parent, args, context) => {
+      if (context.user) {
+        const workspaceResponse = await Workspace.findByIdAndDelete({id: args.id})
+        const cardResponse = await Card.deleteMany({workspaceId: args.id})
+        return ({workspaceResponse, cardResponse})
+      }
+      throw new AuthenticationError('Not logged in');
+    },
     addWorkspace: async(parent, args, context) => {
       if (context.user) {
         return await Workspace.create({...args, adminUser: context.user._id});
@@ -95,7 +103,26 @@ const resolvers = {
         { new: true}
         )
       return card;
-    }
+    },
+    updateWorkspace: async(parent, args, context) => {
+      const {title, repositoryName, id} = args;
+      const updates = {};
+      if (title !== undefined) {
+        updates.title = title
+      }
+      if (repositoryName !== undefined) {
+        updates.repositoryName = repositoryName
+      }
+      if (context.user) {
+        const workspaceUpdate = await Workspace.findByIdAndUpdate(
+          id,
+          updates,
+          {new: true}
+        )
+        return workspaceUpdate;
+      }
+      throw new AuthenticationError('Incorrect credentials');
+    },
   }
 };
 

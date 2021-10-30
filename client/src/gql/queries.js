@@ -15,13 +15,15 @@ export const GET_WORKSPACES = gql`
     adminUser
     title
     repositoryName
+    updatedAt
+    id
   }
 }
 `;
 
 
 export const FETCH_CARDS = gql `
-  query getWorkspaceCards($workspaceID: Int){
+  query getWorkspaceCards($workspaceID: ID){
     getWorkspaceCards(workspaceID: $workspaceID) {
       id
       title

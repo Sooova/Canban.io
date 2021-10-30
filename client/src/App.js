@@ -23,6 +23,8 @@ import NewCard from './components/NewCard';
 import ProjectCard from './components/ProjectCards';
 import Dashboard from './pages/dashboard';
 import NewWorkspace from './components/NewWorkspace';
+import Projects from './pages/Projects';
+import RightSidebar from './components/RightSidebar';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -54,7 +56,10 @@ function App() {
             <Route exact path = "/404" component={ErrorPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path = "/componenttesting" component = {Dashboard}/>
+            <Route exact path = "/dashboard" component = {Dashboard}/>
+            <Route exact path ="/projects" component = {Projects}/>
+            <Route exact path = "/newworkspace" component = {NewWorkspace}/>
+            <Route exact path = "/componenttesting" component = {RightSidebar}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>

@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Backdrop from '@mui/material/Backdrop';
 import { UPDATE_CARD } from "../gql/mutations";
+import RightSidebar from "./RightSidebar";
 
 
 const StyledCanbanParentContainer = styled.div`
@@ -124,6 +125,7 @@ const style = {
     bgcolor: 'background.paper',
     borderRadius: "30px",
     p: 4,
+    paddingBottom: "50px",
 };
 
 function CanbanContainer() {
@@ -150,7 +152,7 @@ function CanbanContainer() {
 
     const { loading, error, data, refetch } = useQuery(FETCH_CARDS, {
         variables: {
-            workspaceID: 1234
+            workspaceID: window.location.search.substr(1)
         }
     });
 
@@ -176,19 +178,22 @@ function CanbanContainer() {
     }, [data])
     
     return (
-        <div>
+        <div style = {{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "first baseline",
+            marginTop: "5%",
+        }}>
 
             <div style={{
                 display: "flex", justifyContent: "center", height: "100%",
                 backgroundColor: "white",
                 borderRadius: "30px",
                 maxWidth: "900px",
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginTop: "5%",
-                boxShadow: "0 2px 6px rgba(0, 0, 0, .3)",
+                // boxShadow: "0 2px 6px rgba(0, 0, 0, .3)",
                 height: "700px",
                 position: "relative",
+                padding:"30px",
 
             }}>
                 <IconButton onClick={handleOpen} sx={{
@@ -306,6 +311,9 @@ function CanbanContainer() {
                     })}
                 </DragDropContext>
             </div >
+            <RightSidebar
+            width = {"1500"}
+            />
         </div>
     );
 }
