@@ -15,7 +15,7 @@ const workspaceSchema = new mongoose.Schema({
     },
     workspaceColor: {
         type: String, 
-        required: false,
+        required: true,
     }
 }, {timestamps: true})
 

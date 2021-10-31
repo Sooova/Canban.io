@@ -15,10 +15,16 @@ export const ADD_USER = gql`
   mutation addUser(
     $email: String!
     $password: String!
+    $firstName: String!
+    $lastName: String!
+    $githubUser: String
   ) {
     addUser(
       email: $email
       password: $password
+      firstName: $firstName
+      lastName: $lastName
+      githubUser: $githubUser
     ) {
       token
       user {
@@ -33,15 +39,18 @@ export const ADD_CARD = gql `
     $title: String!
     $state: String!
     $workspaceID: ID!
+    $color: String!
   ) {
     createCard(
       title: $title
       state: $state
       workspaceID: $workspaceID
+      color: $color
     ) {
       title
       state
       workspaceID
+      color
     }
   }
 `;
@@ -95,13 +104,16 @@ export const CREATE_WORKSPACE = gql `
   mutation addWorkspace(
     $title: String!
     $repositoryName: String
+    $workspaceColor: String!
   ) {
     addWorkspace(
       title: $title
       repositoryName: $repositoryName
+      workspaceColor: $workspaceColor
     ) {
       title
       repositoryName
+      workspaceColor
     }
   }
 `; 

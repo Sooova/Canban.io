@@ -10,7 +10,9 @@ import { CREATE_WORKSPACE } from "../gql/mutations";
 import { useMutation } from "@apollo/client";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { IconButton } from "@mui/material";
-
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const NewWorkspace = function () {
 

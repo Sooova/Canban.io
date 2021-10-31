@@ -5,6 +5,8 @@ export const QUERY_USER = gql`
     user {
       email
       githubUser
+      firstName
+      lastName
     }
   }
 `;
@@ -17,10 +19,18 @@ export const GET_WORKSPACES = gql`
     repositoryName
     updatedAt
     id
+    workspaceColor
   }
 }
 `;
 
+export const FETCH_WORKSPACE_NAME = gql `
+  query getWorkspaceName($workspaceID: ID){
+    getWorkspaceName(workspaceID: $workspaceID) {
+      title
+    }
+  }
+`;
 
 export const FETCH_CARDS = gql `
   query getWorkspaceCards($workspaceID: ID){
@@ -29,6 +39,7 @@ export const FETCH_CARDS = gql `
       title
       state
       updatedAt
+      color
     }
   }
 `;

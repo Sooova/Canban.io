@@ -25,6 +25,8 @@ import Dashboard from './pages/dashboard';
 import NewWorkspace from './components/NewWorkspace';
 import Projects from './pages/Projects';
 import RightSidebar from './components/RightSidebar';
+import Asynchronous from './components/RepoAsync';
+import PrivacyPolicy from './pages/Privacy Policy';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -59,7 +61,7 @@ function App() {
             <Route exact path = "/dashboard" component = {Dashboard}/>
             <Route exact path ="/projects" component = {Projects}/>
             <Route exact path = "/newworkspace" component = {NewWorkspace}/>
-            <Route exact path = "/componenttesting" component = {RightSidebar}/>
+            <Route exact path = "/componenttesting" component = {PrivacyPolicy}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>

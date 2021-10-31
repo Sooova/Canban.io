@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Auth from "../utils/auth";
 import styled from 'styled-components';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { uuid } from "uuidv4";
 import CardKanban from "./CardKanban";
 import { useQuery, useMutation } from "@apollo/client";
-import { FETCH_CARDS } from "../gql/queries";
+import { FETCH_CARDS, FETCH_WORKSPACE_NAME } from "../gql/queries";
 import { borderRadius } from "@mui/system";
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import IconButton from '@mui/material/IconButton';
@@ -18,7 +18,26 @@ import Typography from '@mui/material/Typography';
 import Backdrop from '@mui/material/Backdrop';
 import { UPDATE_CARD } from "../gql/mutations";
 import RightSidebar from "./RightSidebar";
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
+const StyledProjectHeading = styled.h2`
+font-family: "DM Sans", sans-serif;
+font-size: 35px;
+color: rgb(31, 28, 46);
+font-weight: 700;
+opacity: 0.7;
+padding-bottom:30px;
+padding-top:30px;
+display:inline;
+@media (max-width: 921px) {
+  font-size:20px
+}
+@media (max-width: 745px) {
+  font-size:15px
+}
+`;
 
 const StyledCanbanParentContainer = styled.div`
 
@@ -42,6 +61,38 @@ margin-bottom:2%;
   font-size:15px
 }
 `;
+
+const StyledDot = styled.span`
+height: 25px;
+width: 25px;
+background-color: ${props => props.bg};
+border-radius: 50%;
+display: inline-block;
+margin: 10px;
+position:relative;
+opacity: 0.7;
+&:hover {
+    opacity:1;
+    cursor:pointer;
+}
+
+
+`;
+
+const stateArray = [
+    {
+        value: 'toDo',
+        label: 'toDo',
+    },
+    {
+        value: 'inProgress',
+        label: 'inProgress',
+    },
+    {
+        value: 'complete',
+        label: 'complete',
+    },
+];
 
 const columnsFromBackend = {
     [uuid()]: {
@@ -84,7 +135,7 @@ const onDragEnd = (result, columns, setColumns, handleCardUpdate) => {
         });
         console.log(destination.droppableId);
         console.log(removed.id);
-        handleCardUpdate(removed.id,destination.droppableId)
+        handleCardUpdate(removed.id, destination.droppableId)
 
     } else {
         const column = columns[source.droppableId];
@@ -101,7 +152,7 @@ const onDragEnd = (result, columns, setColumns, handleCardUpdate) => {
     }
 };
 
-const columnsInitial = () => ({ 
+const columnsInitial = () => ({
     toDo: {
         name: "toDo",
         items: []
@@ -129,20 +180,70 @@ const style = {
 };
 
 function CanbanContainer() {
+    //ADD IN FUNCTIONALITY TO GET REPOSITORY DESCRIPTION
+    // const { data:userData,} = useQuery(QUERY_USER);
+
+    // const getRepoDescription = async () => {
+    //     const response = await fetch(`https://api.github.com/users/${githubUser}/repos?per_page=100&page=1`)
+    //     const data = await response.json();
+    //     console.log(data);
+    //     const repoList = data.map((data) => ({
+    //         name: data.name
+    //     }))
+    // }
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    
     const [updateCard] = useMutation(UPDATE_CARD);
+    const [value, setValue] = React.useState('');
+    const handleChange = (e) => {
+        setValue(e.target.value);
+        handleTextChange(e);
+    };
+    const [state, setState] = React.useState('EUR');
+    const handleStateChange = (event) => {
+        setState(event.target.value);
+        setCardState(event.target.value);
+    };
+
+    //card state for child component
+    const cardState = ['toDo', 'inProgress', 'complete']
+    const [CardState, setCardState] = useState(cardState[2])
+    const [cardStateIndex, setCardStateIndex] = useState(0)
+    const handleState = () => {
+        setCardStateIndex((cardStateIndex + 1) % 3);
+        console.log(cardStateIndex);
+        setCardState(cardState[cardStateIndex]);
+        setState(cardState[cardStateIndex]);
+    }
+
+    //title state for child component
+    const cardText = useRef()
+    const handleTextChange = (e) => {
+        setValue(e.target.value)
+        cardText.current = e.target.value;
+    };
+    const handleBlur = () => {
+        console.log(cardText.current);
+    }
+
+    //color to send to child component
+    const [circleColor, setColor] = useState('pink')
+    const handleColorChange = (e) => {
+        console.log(e.target.id);
+        setColor(e.target.id)
+    }
+
 
     const handleCardUpdate = async (id, state, err) => {
         try {
             const mutationResponse = await updateCard({
                 variables: {
-                    id: id, state: state}
+                    id: id, state: state
+                }
             });
         }
-        catch (err){
+        catch (err) {
             console.log(err)
         }
     }
@@ -151,6 +252,12 @@ function CanbanContainer() {
 
 
     const { loading, error, data, refetch } = useQuery(FETCH_CARDS, {
+        variables: {
+            workspaceID: window.location.search.substr(1)
+        }
+    });
+
+    const {errorWorkspace, data:workspaceData} = useQuery(FETCH_WORKSPACE_NAME, {
         variables: {
             workspaceID: window.location.search.substr(1)
         }
@@ -176,9 +283,9 @@ function CanbanContainer() {
             sortCards(data);
         }
     }, [data])
-    
+
     return (
-        <div style = {{
+        <div style={{
             display: "flex",
             justifyContent: "space-evenly",
             alignItems: "first baseline",
@@ -191,15 +298,27 @@ function CanbanContainer() {
                 borderRadius: "30px",
                 maxWidth: "900px",
                 // boxShadow: "0 2px 6px rgba(0, 0, 0, .3)",
-                height: "700px",
+                height: "800px",
                 position: "relative",
-                padding:"30px",
+                padding: "30px",
+                flexDirection: "column"
 
             }}>
+                <div style = {{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginLeft: "30px",
+                    marginRight:"30px",
+                }}>
+                    
+                <StyledProjectHeading>
+                    {workspaceData && 
+                    workspaceData.getWorkspaceName.title
+                    }
+                </StyledProjectHeading>
+
                 <IconButton onClick={handleOpen} sx={{
-                    position: "absolute",
-                    right: "20px",
-                    top: "20px",
 
                 }}>
                     <AddCircleOutlineRoundedIcon
@@ -208,7 +327,7 @@ function CanbanContainer() {
                         }}
                     />
                 </IconButton>
-
+                </div>
                 <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
@@ -222,11 +341,78 @@ function CanbanContainer() {
                 >
                     <Fade in={open}>
                         <Box sx={style}>
+                            <IconButton onClick={handleClose}
+                                sx={{
+                                    position: "absolute",
+                                    top: "5%",
+                                    right: "12px",
+                                    transform: "scale(1.2)"
+                                }}
+                            >
+                                <HighlightOffIcon
+                                    fontSize="large"
+                                />
+                            </IconButton>
                             <StyledCanbanHeadings>
                                 New Card
                             </StyledCanbanHeadings>
-                            <NewCard 
-                            callback = {() => refetch()}
+                            <TextField
+                                fullWidth
+                                size="large"
+                                id="standard-multiline-flexible"
+                                label="Title"
+                                multiline
+                                maxRows={4}
+                                value={value}
+                                onChange={handleChange}
+                                variant="standard"
+                            />
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginTop: "30px",
+                            }}>
+                                <div>
+                                    <StyledDot id="pink" onClick={handleColorChange}
+                                        bg={"#FFE6E3"}
+                                    />
+                                    <StyledDot id="purple" onClick={handleColorChange}
+                                        bg={"#A0A0FA"}
+                                    />
+                                    <StyledDot id="green" onClick={handleColorChange}
+                                        bg={"#D0FCDB"}
+                                    />
+                                    <StyledDot id="lightBlue" onClick={handleColorChange}
+                                        bg={"#CEDDFF"}
+                                    />
+                                </div>
+                                <TextField
+                                    id="outlined-select-currency"
+                                    defaultValue={"complete"}
+                                    fullWidth
+                                    select
+                                    label="Select"
+                                    value={state}
+                                    onChange={handleStateChange}
+                                    helperText="Select card state"
+                                >
+                                    {stateArray.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <NewCard
+                                CardState={CardState}
+                                handleState={handleState}
+                                cardText={cardText}
+                                handleBlur={handleBlur}
+                                handleTextChange={handleTextChange}
+                                cardColor={circleColor}
+                                callback={() => refetch()}
                             />
                         </Box>
                     </Fade>
@@ -235,8 +421,14 @@ function CanbanContainer() {
                 <DragDropContext
                     onDragEnd={(result) => onDragEnd(result, columns, setColumns, handleCardUpdate)}
                 >
+                    <div style = {{
+                        display: "flex", 
+                        flexDirection: "row",
+
+                    }}>
+
                     {Object.entries(columns).map(([columnId, column], index) => {
-                        return (
+                        return (    
                             <div
                                 style={{
                                     display: "flex",
@@ -291,7 +483,8 @@ function CanbanContainer() {
                                                                                 state={column.name}
                                                                                 title={item.title}
                                                                                 time={item.updatedAt}
-                                                                                callback = {() => refetch()}
+                                                                                cardColor={item.color}
+                                                                                callback={() => refetch()}
                                                                             />
 
                                                                         </div>
@@ -309,10 +502,11 @@ function CanbanContainer() {
                             </div>
                         );
                     })}
+                    </div>
                 </DragDropContext>
             </div >
             <RightSidebar
-            width = {"1500"}
+                width={"1500"}
             />
         </div>
     );

@@ -32,7 +32,6 @@ const StyledProjectBox = styled.div`
 display: flex;
 border-radius: 10px;
 position: relative;
-background-color: #fee4cb;
 padding: 16px;
 box-sizing: border-box;
 `;
@@ -68,6 +67,7 @@ order: 1;
 max-width:120px;
 text-align: center;
 margin-bottom: 16px;
+max-width:300px;
 
 `;
 
@@ -129,6 +129,23 @@ margin-bottom:2%;
 export {StyledCanbanHeadings}
 
 const ProjectCard = function (props) {
+    const themeColor = {
+        pink: {
+            bg: "#FFE6E3",
+        },
+        purple: {
+            bg: "#A0A0FA",
+        },
+        green: {
+            bg: "#D0FCDB",
+        },
+        lightBlue: {
+            bg: "#CEDDFF"
+        },
+        lightYellow: {
+            bg: "#FFEFC6"
+        }
+    }
     const [open, setOpen] = React.useState(false);
     const handleOpen = function (e) {
         e.stopPropagation();
@@ -143,7 +160,7 @@ const ProjectCard = function (props) {
 
     const handleRepositoryLink = function (e) {
         e.stopPropagation();
-        window.open(`https://github.com/${props.userName}${props.repoName}`, '_blank').focus();
+        window.open(`https://github.com/${props.userName}/${props.repoName}`, '_blank').focus();
     }
 
     const handleCanbanURL = function () {
@@ -153,7 +170,9 @@ const ProjectCard = function (props) {
 
     return (
         <div style={{ padding: "8px", transition: "0.2s"}}>
-            <StyledProjectBox onClick={handleCanbanURL}>
+            <StyledProjectBox style = {{
+                backgroundColor: themeColor[props.workspaceColor].bg
+            }} onClick={handleCanbanURL}>
                 <StyledProjectBoxHeader>
                     <span style={{
                         position: "absolute",

@@ -26,6 +26,7 @@ const StyledInfoCardContainer = styled.div`
   width:200px;
   height:100px;
   margin-top:30px;
+  transform:scale(1.25);
 `;
 
 const StyledCardTitle = styled.h2`
@@ -79,23 +80,23 @@ padding:5px;
 
 
 const NewCard = (props) => {
-    const cardText = useRef('untitled')
-    const cardState = ['toDo', 'inProgress', 'complete']
-    const [CardState, setCardState] = useState(cardState[2])
-    const [cardStateIndex, setCardStateIndex] = useState(0)
-    const handleChange = (e) => {
-        cardText.current = e.target.value;
-    };
+    // const cardText = useRef('untitled')
+    // const cardState = ['toDo', 'inProgress', 'complete']
+    // const [CardState, setCardState] = useState(cardState[2])
+    // const [cardStateIndex, setCardStateIndex] = useState(0)
+    // const handleChange = (e) => {
+    //     cardText.current = e.target.value;
+    // };
 
-    const handleBlur = () => {
-        console.log(cardText.current);
-    }
+    // const handleBlur = () => {
+    //     console.log(cardText.current);
+    // }
 
-    const handleState = () => {
-        setCardStateIndex((cardStateIndex + 1) % 3);
-        console.log(cardStateIndex);
-        setCardState(cardState[cardStateIndex])
-    }
+    // const handleState = () => {
+    //     setCardStateIndex((cardStateIndex + 1) % 3);
+    //     console.log(cardStateIndex);
+    //     setCardState(cardState[cardStateIndex])
+    // }
 
     const [mutateCard] = useMutation(ADD_CARD);
 
@@ -103,9 +104,11 @@ const NewCard = (props) => {
         try {
             const mutationResponse = await mutateCard({
                 variables: {
-                    title: cardText.current.slice(0,cardText.current.length-4),
-                    state: CardState,
-                    workspaceID: window.location.search.substring(1) }
+                    title: props.cardText.current,
+                    state: props.CardState,
+                    workspaceID: window.location.search.substring(1),
+                    color: props.cardColor
+                 }
             });
             
             props.callback();
@@ -130,12 +133,28 @@ const NewCard = (props) => {
         }
     }
 
+    const themeColor = {
+        pink: {
+            bg: "#FFE6E3",
+        },
+        purple: {
+            bg: "#A0A0FA",
+        },
+        green: {
+            bg: "#D0FCDB",
+        },
+        lightBlue: {
+            bg: "#CEDDFF"
+        }
+    }
+
     return (
         <div style = {{
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "left",
+            marginLeft: "23px",
         }}>
-            <ThemeProvider theme={themeState[CardState]}>
+            <ThemeProvider theme = {themeColor[props.cardColor]}>
                 <StyledInfoCardContainer>
                     <IconButton
                         onClick = {handleCardSubmit}
@@ -155,19 +174,21 @@ const NewCard = (props) => {
                         {moment().format("MMM Do")}
                     </StyledCardDate>
                     <StyledCardTitle>
-                        <ContentEditable
-                            html={cardText.current}
-                            onBlur={handleBlur}
+                        {/* <ContentEditable
+                            html={props.cardText.current}
+                            onBlur={props.handleBlur}
                             disabled={false}
-                            onChange={handleChange}
-                        />
+                            onChange={props.handleTextChange}
+                        /> */}
+                        {props.cardText.current}
                     </StyledCardTitle>
-
-                    <StyledTagContainer onClick={handleState}>
+                    <ThemeProvider theme={themeState[props.CardState]}>
+                    <StyledTagContainer onClick={props.handleState}>
                         <StyledTagName>
-                            {CardState}
+                            {props.CardState}
                         </StyledTagName>
                     </StyledTagContainer>
+                    </ThemeProvider>
                 </StyledInfoCardContainer>
             </ThemeProvider>
         </div>

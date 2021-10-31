@@ -5,7 +5,6 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
   Query: {
     user: async (parent, args, context) => {
-      console.log('test');
       console.log(context.user);
       if (context.user) {
         const user = await User.findById(context.user._id);
@@ -26,7 +25,11 @@ const resolvers = {
         return await Workspace.find({adminUser:context.user._id});
       }
       throw new AuthenticationError('Not logged in');
+    }, 
+    getWorkspaceName: async(parent, {workspaceID}, _context, _info) => {
+      return await Workspace.findById(workspaceID);
     }
+    
   },
   Mutation: {
     deleteWorkspace: async(parent, args, context) => {
@@ -74,7 +77,7 @@ const resolvers = {
       return { token, user };
     },
     createCard: async (parent, args, context, info) => {
-      const {title, state, workspaceID} = args;
+      const {title, state, workspaceID, color} = args;
       const card = new Card(args)
       await card.save();
       return card

@@ -9,7 +9,8 @@ import logo from '../assets/images/canban transparent.png'
 import { Link } from "react-router-dom";
 import RightSidebar from "./RightSidebar";
 import CanbanContainer from "./CanbanContainer";
-
+import { QUERY_USER } from "../gql/queries";
+import { useQuery } from "@apollo/client";
 const StyledCanbanio = styled.img`
 	width:30px;
 	display:inline-block;
@@ -95,103 +96,134 @@ const StyledBottomNav = styled.div`
     }
 `;
 
+const StyledUserProfile = styled.img`
+width: 50px;
+height: 50px;
+border-radius: 50%;
+position: relative;
+overflow: hidden;
+`;
+
+
 const SidebarP = props => <StyledP />
 const SidebarUl = props => <StyledUl />
 const SidebarLi = props => <StyledSidebarLi />
 const SidebarContainer = props => <StyledSidebarContainer />
 const SidebarH1 = props => <StyledSidebarH1 />
 
-function sidebar({ parentRef }) {
+function Sidebar({ parentRef }) {
+    const { loading, error, data, refetch } = useQuery(QUERY_USER);
 
     return (
         <div>
 
-        <StyledSidebarContainer ref={parentRef}>
-            <StyledSidebarLi>
-            <Link to="/">
-                <StyledCanbanio src={logo} />
-            </Link>
-            </StyledSidebarLi>
-            <StyledSidebarH1>
-                Hey, Alexandra!
-            </StyledSidebarH1>
+            <StyledSidebarContainer ref={parentRef}>
+                <StyledSidebarLi>
+                    <Link to="/">
+                        <StyledCanbanio src={logo} />
+                    </Link>
+                </StyledSidebarLi>
+                {/* {data &&
 
-            <StyledSidebarLi>
-                <HomeOutlinedIcon fontSize="medium"
-                    sx={{
-                        marginRight: ["10px"]
+                    <StyledSidebarLi>
+                        <StyledUserProfile src={`https://github.com/${data.user.githubUser}.png?size=200`} />
 
-                    }} />
-                <StyledP>
-                    Home
-                </StyledP>
-            </StyledSidebarLi>
+                    </StyledSidebarLi>
 
-            <StyledSidebarLi>
-                <DvrIcon fontSize="medium"
-                    sx={{
-                        marginRight: ["10px"]
+                } */}
+                <StyledSidebarLi>
 
-                    }}
-                />
+                </StyledSidebarLi>
+                <StyledSidebarH1>
+                    {data &&
 
-                <Link to="/dashboard" style = {{
-                    textDecoration: "none",
-                    color: "color: rgb(31, 28, 46)"
-                }}>
+                        <div style = {{
+                            marginBottom: "14px",
+                        }}>
+                            <StyledUserProfile src={`https://github.com/${data.user.githubUser}.png?size=200`} />
+
+                        </div>
+
+                    }
+                    Hey, {data && data.user.firstName}!
+                </StyledSidebarH1>
+
+                <StyledSidebarLi>
+                    <HomeOutlinedIcon fontSize="medium"
+                        sx={{
+                            marginRight: ["10px"]
+
+                        }} />
                     <StyledP>
-                        Workspaces
+                        Home
                     </StyledP>
-                </Link>
+                </StyledSidebarLi>
 
-            </StyledSidebarLi>
+                <StyledSidebarLi>
+                    <DvrIcon fontSize="medium"
+                        sx={{
+                            marginRight: ["10px"]
 
-            <StyledSidebarLi>
-                <PersonOutlineIcon fontSize="medium"
-                    sx={{
-                        marginRight: ["10px"]
+                        }}
+                    />
 
-                    }}
-                />
-                <StyledP>
-                    Profile
-                </StyledP>
-            </StyledSidebarLi>
+                    <Link to="/dashboard" style={{
+                        textDecoration: "none",
+                        color: "color: rgb(31, 28, 46)"
+                    }}>
+                        <StyledP>
+                            Workspaces
+                        </StyledP>
+                    </Link>
 
-            <StyledSidebarLi>
-                <SettingsOutlinedIcon fontSize="medium"
-                    sx={{
-                        marginRight: ["10px"]
+                </StyledSidebarLi>
 
-                    }}
-                />
-                <StyledP>
-                    Settings
-                </StyledP>
-            </StyledSidebarLi>
-            <StyledBottomNav>
-                <ul>
-                    <StyledSidebarLi onClick={() => Auth.logout()}>
-                        Logout
-                    </StyledSidebarLi>
-                    <StyledSidebarLi>
-                        Support
-                    </StyledSidebarLi>
-                    <StyledSidebarLi>
-                        Documentation
-                    </StyledSidebarLi>
-                    <StyledSidebarLi>
-                        Privacy Policy
-                    </StyledSidebarLi>
-                </ul>
-            </StyledBottomNav>
-        </StyledSidebarContainer>
+                <StyledSidebarLi>
+                    <PersonOutlineIcon fontSize="medium"
+                        sx={{
+                            marginRight: ["10px"]
+
+                        }}
+                    />
+                    <StyledP>
+                        Profile
+                    </StyledP>
+                </StyledSidebarLi>
+
+                <StyledSidebarLi>
+                    <SettingsOutlinedIcon fontSize="medium"
+                        sx={{
+                            marginRight: ["10px"]
+
+                        }}
+                    />
+                    <StyledP>
+                        Settings
+                    </StyledP>
+                </StyledSidebarLi>
+                <StyledBottomNav>
+                    <ul>
+                        <StyledSidebarLi onClick={() => Auth.logout()}>
+                            Logout
+                        </StyledSidebarLi>
+                        <StyledSidebarLi>
+                            Support
+                        </StyledSidebarLi>
+                        <StyledSidebarLi>
+                            Documentation
+                        </StyledSidebarLi>
+                        <StyledSidebarLi>
+                            Privacy Policy
+                        </StyledSidebarLi>
+                    </ul>
+                </StyledBottomNav>
+            </StyledSidebarContainer>
         </div>
 
 
     )
 }
 
-export default sidebar;
+export default Sidebar;
 
 //Workspaces, Profile, Settings, 

@@ -80,7 +80,7 @@ font-size:10px;
 padding:5px;
 `;
 
-function CardKanban({ id, state, title, updatedAt, callback }) {
+function CardKanban({ id, state, title, updatedAt, callback, cardColor }) {
     const themeState = {
         complete: {
             bg: "#c8f7dc",
@@ -96,7 +96,22 @@ function CardKanban({ id, state, title, updatedAt, callback }) {
         }
     }
 
-    
+    const themeColor = {
+        pink: {
+            bg: "#FFE6E3",
+        },
+        purple: {
+            bg: "#A0A0FA",
+        },
+        green: {
+            bg: "#D0FCDB",
+        },
+        lightBlue: {
+            bg: "#CEDDFF"
+        }
+    }
+
+
     const [deleteCard] = useMutation(DELETE_CARD);
 
     const handleCardDelete = async (err) => {
@@ -104,34 +119,34 @@ function CardKanban({ id, state, title, updatedAt, callback }) {
             console.log(id);
             const mutationResponse = await deleteCard({
                 variables: {
-                    id: id }
+                    id: id
+                }
             });
-            
+
             callback();
         }
-        catch (err){
+        catch (err) {
             console.log(err)
         }
     }
-    
+
 
 
     return (
         <div>
-            <ThemeProvider theme={themeState[state]}>
+            <ThemeProvider theme={themeColor[cardColor]?themeColor[cardColor]:themeColor['pink']}>
                 <StyledInfoCardContainer>
-
                     <StyledDeleteContainer>
-                    <IconButton onClick = {handleCardDelete}
-                        sx={{
-                            position: "absolute",
-                            top: "2%",
-                            right: "12px",
-                        }}
-                    >
-                        <HighlightOffIcon
-                            fontSize="large"
-                        />
+                        <IconButton onClick={handleCardDelete}
+                            sx={{
+                                position: "absolute",
+                                top: "2%",
+                                right: "12px",
+                            }}
+                        >
+                            <HighlightOffIcon
+                                fontSize="large"
+                            />
                         </IconButton>
                     </StyledDeleteContainer>
                     <StyledCardDate>
@@ -141,12 +156,14 @@ function CardKanban({ id, state, title, updatedAt, callback }) {
                     <StyledCardTitle>
                         {title}
                     </StyledCardTitle>
+                    <ThemeProvider theme={themeState[state]}>
+                        <StyledTagContainer>
+                            <StyledTagName>
+                                {state}
+                            </StyledTagName>
+                        </StyledTagContainer>
+                    </ThemeProvider>
 
-                    <StyledTagContainer>
-                        <StyledTagName>
-                            {state}
-                        </StyledTagName>
-                    </StyledTagContainer>
                 </StyledInfoCardContainer>
             </ThemeProvider>
 

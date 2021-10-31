@@ -16,6 +16,11 @@ import CanbanContainer from "../components/CanbanContainer";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { IconButton } from "@mui/material";
 import RightSidebar from "../components/RightSidebar";
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Fade from '@mui/material/Fade';
+import Backdrop from '@mui/material/Backdrop';
+import AsyncWorkspaceCreate from "../components/RepoAsync";
 
 const StyledDashboardContainer = styled.div`
     margin-left: ${props => props.width + 20 + "px"};
@@ -46,10 +51,27 @@ margin-right:50px;
 }
 `;
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    bgcolor: 'background.paper',
+    borderRadius: "30px",
+    p: 4,
+    paddingBottom: "50px",
+    display: "flex",
+    justifyContent: "center",
+};
+
 const Dashboard = () => {
     const [sidebarWidth, setSidebarWidth] = useState("10px");
     const sidebarRef = useRef();
     const { loading, error, data, refetch } = useQuery(GET_WORKSPACES);
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const [deleteWorkspace] = useMutation(DELETE_WORKSPACE);
 
@@ -90,13 +112,32 @@ const Dashboard = () => {
                             <StyledCanbanHeadings>
                                 Projects
                             </StyledCanbanHeadings>
-                            <IconButton>
+                            <IconButton onClick = {handleOpen}>
                                 <AddCircleOutlineOutlinedIcon
                                     sx={{
                                         transform: "scale(1.5)"
                                     }}
                                     fontSize="large" />
                             </IconButton>
+                            <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                        <Box sx={style}>
+                            <AsyncWorkspaceCreate
+                            callback={() => refetch()}
+                            />
+                        </Box>
+                    </Fade>
+                </Modal>
                         </div>
 
                         {data && data.getWorkspaces.map((workspace) => {
@@ -107,6 +148,7 @@ const Dashboard = () => {
                                     userName={"sooova"}
                                     updatedAt={parseInt(workspace.updatedAt)}
                                     workspaceID={workspace.id}
+                                    workspaceColor = {workspace.workspaceColor}
                                     callback={() => refetch()}
                                     editButton={true}
                                 />

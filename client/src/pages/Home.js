@@ -159,6 +159,7 @@ const StyledButton = styled.button `
 
 
 const Home = () => {
+  document.body.style = "background-image: none; background-color: #FCF6F6 ";
   return (
     <div>
       <StyledDiagonalDiv>

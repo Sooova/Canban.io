@@ -12,7 +12,11 @@ const cardsSchema = new mongoose.Schema({
     workspaceID: {
         type: String,
         required: true,
-    }
+    },
+    color: {
+        type: String, 
+        required: true,
+    } 
 }, {timestamps: true})
 
 const Card = mongoose.model('Card', cardsSchema);

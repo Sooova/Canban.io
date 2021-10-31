@@ -12,7 +12,7 @@ const Header = styled.header`
 
 const StyledNav = styled.nav`
 	display: flex;
-	// background-color: #f6EAEA;
+	background-color: ;
 `;
 
 const NavigationList = styled.ul`
@@ -89,6 +89,10 @@ function Nav() {
 				<NavigationList>
 					<NavigationItem>
 						{window.location.pathname == "/" ? 
+						<Link to="/">
+							<StyledCanbanio src={canbanio} />
+						</Link>: "" }
+						{window.location.pathname == "/signup" ? 
 						<Link to="/">
 							<StyledCanbanio src={canbanio} />
 						</Link>: "" }
