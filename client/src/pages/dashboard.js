@@ -66,6 +66,10 @@ const style = {
 };
 
 const Dashboard = () => {
+    function getBaseURL() {
+        return window.location.protocol + "//" + window.location.hostname +
+            (window.location.port && ":" + window.location.port) + "/";
+    }
     const [sidebarWidth, setSidebarWidth] = useState("10px");
     const sidebarRef = useRef();
     const { loading, error, data, refetch } = useQuery(GET_WORKSPACES);
@@ -89,82 +93,86 @@ const Dashboard = () => {
         }
     }, [])
 
-    // const {_id, email, githubUser} = data.User;
-    return (
-        <div style={{
-            marginTop: "60px"
-        }}>
-            <Sidebar parentRef={sidebarRef} />
-            <StyledDashboardContainer width={sidebarWidth}>
-                <div style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
+    if (Auth.loggedIn()) {
 
-                }}>
-                    <StyledContainingDiv>
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "flex-start",
-                            flexDirection:"row"
-                        }}>
-                            <StyledCanbanHeadings>
-                                Projects
-                            </StyledCanbanHeadings>
-                            <IconButton onClick = {handleOpen}>
-                                <AddCircleOutlineOutlinedIcon
-                                    sx={{
-                                        transform: "scale(1.5)"
+        return (
+            <div style={{
+                marginTop: "60px"
+            }}>
+                <Sidebar parentRef={sidebarRef} />
+                <StyledDashboardContainer width={sidebarWidth}>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+
+                    }}>
+                        <StyledContainingDiv>
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "flex-start",
+                                flexDirection: "row"
+                            }}>
+                                <StyledCanbanHeadings>
+                                    Workspace
+                                </StyledCanbanHeadings>
+                                <IconButton onClick={handleOpen}>
+                                    <AddCircleOutlineOutlinedIcon
+                                        sx={{
+                                            transform: "scale(1.5)"
+                                        }}
+                                        fontSize="large" />
+                                </IconButton>
+                                <Modal
+                                    aria-labelledby="transition-modal-title"
+                                    aria-describedby="transition-modal-description"
+                                    open={open}
+                                    onClose={handleClose}
+                                    closeAfterTransition
+                                    BackdropComponent={Backdrop}
+                                    BackdropProps={{
+                                        timeout: 500,
                                     }}
-                                    fontSize="large" />
-                            </IconButton>
-                            <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                        <Box sx={style}>
-                            <AsyncWorkspaceCreate
-                            callback={() => refetch()}
-                            />
-                        </Box>
-                    </Fade>
-                </Modal>
-                        </div>
+                                >
+                                    <Fade in={open}>
+                                        <Box sx={style}>
+                                            <AsyncWorkspaceCreate
+                                                callback={() => refetch()}
+                                            />
+                                        </Box>
+                                    </Fade>
+                                </Modal>
+                            </div>
 
-                        {data && data.getWorkspaces.map((workspace) => {
-                            return (
-                                <ProjectCard
-                                    title={workspace.title}
-                                    repoName={workspace.repositoryName}
-                                    userName={"sooova"}
-                                    updatedAt={parseInt(workspace.updatedAt)}
-                                    workspaceID={workspace.id}
-                                    workspaceColor = {workspace.workspaceColor}
-                                    callback={() => refetch()}
-                                    editButton={true}
-                                />
-                            )
-                        })}
-                    </StyledContainingDiv>
-                    <RightSidebar
-                    width = {"1336"} />
-                </div>
+                            {data && data.getWorkspaces.map((workspace) => {
+                                return (
+                                    <ProjectCard
+                                        title={workspace.title}
+                                        repoName={workspace.repositoryName}
+                                        userName={"sooova"}
+                                        updatedAt={parseInt(workspace.updatedAt)}
+                                        workspaceID={workspace.id}
+                                        workspaceColor={workspace.workspaceColor}
+                                        callback={() => refetch()}
+                                        editButton={true}
+                                    />
+                                )
+                            })}
+                        </StyledContainingDiv>
+                        <RightSidebar
+                            width={"1336"} />
+                    </div>
 
 
-            </StyledDashboardContainer>
+                </StyledDashboardContainer>
 
-        </div>
+            </div>
 
-    )
+        )
+    } else {
+        window.location.replace(`${getBaseURL()}`)
+    }
 }
 
 export default Dashboard;

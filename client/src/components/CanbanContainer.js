@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { uuid } from "uuidv4";
 import CardKanban from "./CardKanban";
 import { useQuery, useMutation } from "@apollo/client";
-import { FETCH_CARDS, FETCH_WORKSPACE_NAME } from "../gql/queries";
+import { FETCH_CARDS, FETCH_WORKSPACE_NAME, GET_WORKSPACES, QUERY_USER } from "../gql/queries";
 import { borderRadius } from "@mui/system";
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import IconButton from '@mui/material/IconButton';
@@ -21,6 +21,7 @@ import RightSidebar from "./RightSidebar";
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import GithubSync from "./SyncGithub";
 
 const StyledProjectHeading = styled.h2`
 font-family: "DM Sans", sans-serif;
@@ -180,17 +181,9 @@ const style = {
 };
 
 function CanbanContainer() {
-    //ADD IN FUNCTIONALITY TO GET REPOSITORY DESCRIPTION
-    // const { data:userData,} = useQuery(QUERY_USER);
+    const { data: userData, refetch: refetchUser } = useQuery(QUERY_USER);
 
-    // const getRepoDescription = async () => {
-    //     const response = await fetch(`https://api.github.com/users/${githubUser}/repos?per_page=100&page=1`)
-    //     const data = await response.json();
-    //     console.log(data);
-    //     const repoList = data.map((data) => ({
-    //         name: data.name
-    //     }))
-    // }
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -257,7 +250,7 @@ function CanbanContainer() {
         }
     });
 
-    const {errorWorkspace, data:workspaceData} = useQuery(FETCH_WORKSPACE_NAME, {
+    const { errorWorkspace, data: workspaceData } = useQuery(FETCH_WORKSPACE_NAME, {
         variables: {
             workspaceID: window.location.search.substr(1)
         }
@@ -304,29 +297,42 @@ function CanbanContainer() {
                 flexDirection: "column"
 
             }}>
-                <div style = {{
+                <div style={{
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
                     marginLeft: "30px",
-                    marginRight:"30px",
+                    marginRight: "30px",
                 }}>
-                    
-                <StyledProjectHeading>
-                    {workspaceData && 
-                    workspaceData.getWorkspaceName.title
-                    }
-                </StyledProjectHeading>
 
-                <IconButton onClick={handleOpen} sx={{
+                    <StyledProjectHeading>
+                        {workspaceData &&
+                            workspaceData.getWorkspaceName.title
+                        }
+                    </StyledProjectHeading>
+                    <div style = {{
+                        display: "flex",
+                        flexDirection: "row",
+                    }}>
 
-                }}>
-                    <AddCircleOutlineRoundedIcon
-                        fontSize="large" color="rgb(31,28,46)" sx={{
-                            transform: "scale(1.2)",
-                        }}
-                    />
-                </IconButton>
+                        <IconButton onClick={handleOpen} sx={{
+
+                        }}>
+                            <AddCircleOutlineRoundedIcon
+                                fontSize="large" color="rgb(31,28,46)" sx={{
+                                    transform: "scale(1.2)",
+                                }}
+                            />
+                        </IconButton>
+
+                        {(workspaceData && userData) &&
+                            <GithubSync
+                                userData={userData.user.githubUser}
+                                repo={workspaceData.getWorkspaceName.repositoryName}
+                                callback={() => refetch()}
+                            />
+                        }
+                    </div>
                 </div>
                 <Modal
                     aria-labelledby="transition-modal-title"
@@ -421,87 +427,87 @@ function CanbanContainer() {
                 <DragDropContext
                     onDragEnd={(result) => onDragEnd(result, columns, setColumns, handleCardUpdate)}
                 >
-                    <div style = {{
-                        display: "flex", 
+                    <div style={{
+                        display: "flex",
                         flexDirection: "row",
 
                     }}>
 
-                    {Object.entries(columns).map(([columnId, column], index) => {
-                        return (    
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                }}
-                                key={columnId}
-                            >
-                                <StyledCanbanHeadings style={{
-                                    marginTop: "30px"
-                                }}>
-                                    {column.name}
-                                </StyledCanbanHeadings>
-                                <div style={{ margin: 8 }}>
-                                    <Droppable droppableId={columnId} key={columnId}>
-                                        {(provided, snapshot) => {
-                                            return (
-                                                <div
-                                                    {...provided.droppableProps}
-                                                    ref={provided.innerRef}
-                                                    style={{
-                                                        display: "flex",
-                                                        flexDirection: "column",
-                                                        alignItems: "center",
-                                                        borderRadius: "30px",
-                                                        background: snapshot.isDraggingOver
-                                                            ? "lightblue"
-                                                            : "",
-                                                        padding: 4,
-                                                        width: 250,
-                                                        height: 625,
-                                                        overflowY: "auto",
-                                                    }}
-                                                >
-                                                    {column.items.map((item, index) => {
-                                                        return (
-                                                            <Draggable
-                                                                key={item.id}
-                                                                draggableId={item.id}
-                                                                index={index}
-                                                            >
-                                                                {(provided, snapshot) => {
-                                                                    return (
-                                                                        <div
-                                                                            ref={provided.innerRef}
-                                                                            {...provided.draggableProps}
-                                                                            {...provided.dragHandleProps}
-                                                                        >
-                                                                            <CardKanban
-                                                                                key={item.id}
-                                                                                id={item.id}
-                                                                                state={column.name}
-                                                                                title={item.title}
-                                                                                time={item.updatedAt}
-                                                                                cardColor={item.color}
-                                                                                callback={() => refetch()}
-                                                                            />
+                        {Object.entries(columns).map(([columnId, column], index) => {
+                            return (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                    }}
+                                    key={columnId}
+                                >
+                                    <StyledCanbanHeadings style={{
+                                        marginTop: "30px"
+                                    }}>
+                                        {column.name}
+                                    </StyledCanbanHeadings>
+                                    <div style={{ margin: 8 }}>
+                                        <Droppable droppableId={columnId} key={columnId}>
+                                            {(provided, snapshot) => {
+                                                return (
+                                                    <div
+                                                        {...provided.droppableProps}
+                                                        ref={provided.innerRef}
+                                                        style={{
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            alignItems: "center",
+                                                            borderRadius: "30px",
+                                                            background: snapshot.isDraggingOver
+                                                                ? "lightblue"
+                                                                : "",
+                                                            padding: 4,
+                                                            width: 250,
+                                                            height: 625,
+                                                            overflowY: "auto",
+                                                        }}
+                                                    >
+                                                        {column.items.map((item, index) => {
+                                                            return (
+                                                                <Draggable
+                                                                    key={item.id}
+                                                                    draggableId={item.id}
+                                                                    index={index}
+                                                                >
+                                                                    {(provided, snapshot) => {
+                                                                        return (
+                                                                            <div
+                                                                                ref={provided.innerRef}
+                                                                                {...provided.draggableProps}
+                                                                                {...provided.dragHandleProps}
+                                                                            >
+                                                                                <CardKanban
+                                                                                    key={item.id}
+                                                                                    id={item.id}
+                                                                                    state={column.name}
+                                                                                    title={item.title}
+                                                                                    time={item.updatedAt}
+                                                                                    cardColor={item.color}
+                                                                                    callback={() => refetch()}
+                                                                                />
 
-                                                                        </div>
-                                                                    );
-                                                                }}
-                                                            </Draggable>
-                                                        );
-                                                    })}
-                                                    {provided.placeholder}
-                                                </div>
-                                            );
-                                        }}
-                                    </Droppable>
+                                                                            </div>
+                                                                        );
+                                                                    }}
+                                                                </Draggable>
+                                                            );
+                                                        })}
+                                                        {provided.placeholder}
+                                                    </div>
+                                                );
+                                            }}
+                                        </Droppable>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
                     </div>
                 </DragDropContext>
             </div >

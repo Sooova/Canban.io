@@ -2,6 +2,7 @@ import React from "react";
 import styled from 'styled-components';
 import CanbanConfused from "../assets/images/canban confused shaken.png";
 import { LandingAbout } from "./Home";
+import { Link } from "react-router-dom";
 
 const StyledCanbanConfused = styled.img`
 width:400px;
@@ -32,7 +33,7 @@ display:inline-block;
 }
 `;
 
-const Styled404Text = styled.p `
+const Styled404Text = styled.p`
 font-family: "DM Sans", sans-serif;
 color: rgb(31, 28, 46);
 font-size: 25px;
@@ -62,31 +63,48 @@ const StyledErrorDiv = styled.div`
 const ErrorCanbanConfused = props => <StyledCanbanConfused />
 const Error404Header = props => <Styled404Header />
 const ErrorDiv = props => <StyledErrorDiv />
-const ErrorPageText = props => <Styled404Text/>
+const ErrorPageText = props => <Styled404Text />
 
 export {
-    ErrorCanbanConfused,
-    Error404Header,
-    ErrorDiv,
-    ErrorPageText
+  ErrorCanbanConfused,
+  Error404Header,
+  ErrorDiv,
+  ErrorPageText
 }
 
 const ErrorPage = () => {
-    return (
+  document.body.style = "background-image: none; background-color: white ";
+  return (
+    <div>
+      <StyledErrorDiv>
+        <StyledCanbanConfused src={CanbanConfused} />
         <div>
-            <StyledErrorDiv>
-                <StyledCanbanConfused src={CanbanConfused} />
-                <div>
-                <Styled404Header>
-                    404 Error
-                </Styled404Header>
-                <Styled404Text>
-                    This page has Ban all shaken up. 
-                </Styled404Text>
-                </div>
-            </StyledErrorDiv>
+          <Styled404Header>
+            404 Error
+          </Styled404Header>
+          <Styled404Text>
+            This page has Ban all shaken up.
+          </Styled404Text>
+
+          <Styled404Text>
+            This page has Ban all shaken up.
+          </Styled404Text>
+          <Link to="/" style = {{
+            textDecoration: "none"
+          }}>
+            <Styled404Text style = {{
+              paddingTop: "20px",
+              textDecoration: "none", 
+            }}>
+              <span style = {{
+                fontSize: "30px"
+              }}>🠐</span> Back to Saftey
+            </Styled404Text>
+          </Link>
         </div>
-    )
+      </StyledErrorDiv>
+    </div>
+  )
 }
 
 export default ErrorPage;

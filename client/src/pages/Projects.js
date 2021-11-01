@@ -18,7 +18,11 @@ const StyledDashboardContainer = styled.div`
     margin-left: ${props => props.width + "px"};
 `
 
-const Projects = function() {
+const Projects = function () {
+    function getBaseURL() {
+        return window.location.protocol + "//" + window.location.hostname +
+            (window.location.port && ":" + window.location.port) + "/";
+    }
     useEffect(() => {
         const updateWidth = () => {
             setSidebarWidth(sidebarRef.current.offsetWidth);
@@ -34,14 +38,18 @@ const Projects = function() {
     const [sidebarWidth, setSidebarWidth] = useState("10px");
     const sidebarRef = useRef();
 
+    if (Auth.loggedIn()) {
 
-    return (
-        <>
-            <Sidebar parentRef={sidebarRef} />
-            <StyledDashboardContainer width={sidebarWidth}>
-                <CanbanContainer/>
-            </StyledDashboardContainer>
-        </>
-    )
+        return (
+            <>
+                <Sidebar parentRef={sidebarRef} />
+                <StyledDashboardContainer width={sidebarWidth}>
+                    <CanbanContainer />
+                </StyledDashboardContainer>
+            </>
+        )
+    } else {
+        window.location.replace(`${getBaseURL()}`)
+    }
 }
 export default Projects;

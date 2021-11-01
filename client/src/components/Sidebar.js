@@ -76,8 +76,7 @@ color: rgb(31, 28, 46);
 font-weight: 700;
 opacity: 0.8;
 font-size: 25px;
-margin-top:10%;
-margin-bottom:10%;
+margin-bottom:20%;
 line-height:150%;
 @media (max-width: 731px) {
     font-size:20px
@@ -123,28 +122,20 @@ function Sidebar({ parentRef }) {
                         <StyledCanbanio src={logo} />
                     </Link>
                 </StyledSidebarLi>
-                {/* {data &&
 
-                    <StyledSidebarLi>
+
+                {data &&
+
+                    <div style={{
+                        marginBottom: "5px",
+                        marginTop: "50px"
+                    }}>
                         <StyledUserProfile src={`https://github.com/${data.user.githubUser}.png?size=200`} />
 
-                    </StyledSidebarLi>
+                    </div>
 
-                } */}
-                <StyledSidebarLi>
-
-                </StyledSidebarLi>
+                }
                 <StyledSidebarH1>
-                    {data &&
-
-                        <div style = {{
-                            marginBottom: "14px",
-                        }}>
-                            <StyledUserProfile src={`https://github.com/${data.user.githubUser}.png?size=200`} />
-
-                        </div>
-
-                    }
                     Hey, {data && data.user.firstName}!
                 </StyledSidebarH1>
 

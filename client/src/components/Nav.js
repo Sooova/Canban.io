@@ -96,6 +96,10 @@ function Nav() {
 						<Link to="/">
 							<StyledCanbanio src={canbanio} />
 						</Link>: "" }
+						{window.location.pathname == "/login" ? 
+						<Link to="/">
+							<StyledCanbanio src={canbanio} />
+						</Link>: "" }
 					</NavigationItem>
 					<NavigationItem>
 

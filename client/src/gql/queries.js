@@ -28,6 +28,7 @@ export const FETCH_WORKSPACE_NAME = gql `
   query getWorkspaceName($workspaceID: ID){
     getWorkspaceName(workspaceID: $workspaceID) {
       title
+      repositoryName
     }
   }
 `;
