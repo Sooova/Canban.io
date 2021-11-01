@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import Auth from "../utils/auth";
 import styled from 'styled-components';
 import DvrIcon from '@mui/icons-material/Dvr';
@@ -11,6 +11,7 @@ import RightSidebar from "./RightSidebar";
 import CanbanContainer from "./CanbanContainer";
 import { QUERY_USER } from "../gql/queries";
 import { useQuery } from "@apollo/client";
+
 const StyledCanbanio = styled.img`
 	width:30px;
 	display:inline-block;
@@ -103,6 +104,11 @@ position: relative;
 overflow: hidden;
 `;
 
+const StyledProfileLi = styled.li`
+@media (max-width: 660px) {
+    display:none;
+}
+`;
 
 const SidebarP = props => <StyledP />
 const SidebarUl = props => <StyledUl />
@@ -111,7 +117,16 @@ const SidebarContainer = props => <StyledSidebarContainer />
 const SidebarH1 = props => <StyledSidebarH1 />
 
 function Sidebar({ parentRef }) {
+    var profileRender = false;
     const { loading, error, data, refetch } = useQuery(QUERY_USER);
+    if (data) {
+        if(data.user.githubUser == '') {
+            profileRender = false;
+        }
+        else {
+            profileRender = true;
+        }
+    }
 
     return (
         <div>
@@ -124,14 +139,17 @@ function Sidebar({ parentRef }) {
                 </StyledSidebarLi>
 
 
-                {data &&
 
+                
+                {profileRender == true && 
+                
                     <div style={{
                         marginBottom: "5px",
                         marginTop: "50px"
                     }}>
+                        <StyledProfileLi>
                         <StyledUserProfile src={`https://github.com/${data.user.githubUser}.png?size=200`} />
-
+                        </StyledProfileLi>
                     </div>
 
                 }

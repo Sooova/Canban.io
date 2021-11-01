@@ -72,6 +72,7 @@ const StyledButton = styled.button`
 
 
 export default function AsyncWorkspaceCreate(props) {
+    var renderAsync = false;
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
@@ -138,6 +139,12 @@ export default function AsyncWorkspaceCreate(props) {
     React.useEffect(() => {
         let active = true;
         const githubUser = data && data.user.githubUser
+        if(data.user.githubUser == '') {
+            renderAsync = false;
+        }
+        else {
+            renderAsync = true;
+        }
         if (!loading) {
             return undefined;
         }
@@ -220,8 +227,9 @@ export default function AsyncWorkspaceCreate(props) {
                 </div>
                 <div>
                     <StyledRightP>
-                        Select Repository
+                    {renderAsync == true ? 'Select Repository':'No Github User Saved'}
                     </StyledRightP>
+                    {renderAsync == true &&
                     <Autocomplete
                         id="asynchronous-demo"
                         name = "repo"
@@ -254,6 +262,7 @@ export default function AsyncWorkspaceCreate(props) {
                             />
                         )}
                     />
+                    }
                 </div>
             </div>
             <div style = {{

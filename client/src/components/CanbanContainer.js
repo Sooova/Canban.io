@@ -95,21 +95,6 @@ const stateArray = [
     },
 ];
 
-const columnsFromBackend = {
-    [uuid()]: {
-        name: "To do",
-        items: []
-    },
-    [uuid()]: {
-        name: "In Progress",
-        items: []
-    },
-    [uuid()]: {
-        name: "Done",
-        items: []
-    }
-};
-
 const onDragEnd = (result, columns, setColumns, handleCardUpdate) => {
     if (!result.destination) return;
     const { source, destination } = result;
@@ -181,9 +166,8 @@ const style = {
 };
 
 function CanbanContainer() {
+    var syncButtonRender = false;
     const { data: userData, refetch: refetchUser } = useQuery(QUERY_USER);
-
-
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -277,6 +261,17 @@ function CanbanContainer() {
         }
     }, [data])
 
+
+    
+    if(userData && workspaceData ) {
+        if(userData.user.githubUser == '') {
+            syncButtonRender = false;
+        }
+        else {
+            syncButtonRender = true;
+        }
+    }
+
     return (
         <div style={{
             display: "flex",
@@ -325,7 +320,7 @@ function CanbanContainer() {
                             />
                         </IconButton>
 
-                        {(workspaceData && userData) &&
+                        {syncButtonRender == true &&
                             <GithubSync
                                 userData={userData.user.githubUser}
                                 repo={workspaceData.getWorkspaceName.repositoryName}
