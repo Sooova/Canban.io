@@ -148,7 +148,6 @@ export default function AsyncWorkspaceCreate(props) {
             const repoList = data.map((data) => ({
                 name: data.name
             }))
-            console.log(data);
 
             if (active) {
                 setOptions([...repoList]);
