@@ -79,6 +79,15 @@ export default function AsyncWorkspaceCreate(props) {
     const { error, data, refetch } = useQuery(QUERY_USER);
     const [mutateWorkspace] = useMutation(CREATE_WORKSPACE);
     const [repo, setRepo] = useState('');
+    if(data) {
+        if(data.user.githubUser == '') {
+            renderAsync = false;
+        }
+        else {
+            renderAsync = true;
+        }
+    }
+
 
     const handleNewWorkspace = async (e) => {
         e.preventDefault()
@@ -139,12 +148,6 @@ export default function AsyncWorkspaceCreate(props) {
     React.useEffect(() => {
         let active = true;
         const githubUser = data && data.user.githubUser
-        if(data.user.githubUser == '') {
-            renderAsync = false;
-        }
-        else {
-            renderAsync = true;
-        }
         if (!loading) {
             return undefined;
         }
