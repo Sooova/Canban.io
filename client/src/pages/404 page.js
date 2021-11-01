@@ -86,9 +86,6 @@ const ErrorPage = () => {
             This page has Ban all shaken up.
           </Styled404Text>
 
-          <Styled404Text>
-            This page has Ban all shaken up.
-          </Styled404Text>
           <Link to="/" style = {{
             textDecoration: "none"
           }}>

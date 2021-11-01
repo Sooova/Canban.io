@@ -100,6 +100,7 @@ export default function AsyncWorkspaceCreate(props) {
                 }
             });
             props.callback();
+            props.modalClose();
         }
         catch (err) {
             console.log(err)

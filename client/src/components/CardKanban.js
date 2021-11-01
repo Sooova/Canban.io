@@ -9,6 +9,7 @@ import { DELETE_CARD } from "../gql/mutations";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { IconButton } from "@mui/material";
 import { useMutation } from "@apollo/client";
+import { keyframes } from "styled-components";
 
 const StyledDeleteContainer = styled.div`
     display:none;
@@ -16,6 +17,16 @@ const StyledDeleteContainer = styled.div`
     &:hover {
         opacity:100%
       }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 `;
 
 const StyledInfoCardContainer = styled.div`
@@ -31,7 +42,8 @@ const StyledInfoCardContainer = styled.div`
   align-items: center;
   margin:5px;
   width:180px;
-
+  animation: ${fadeIn} 0.5s linear; 
+  animation-fill-mode: forwards;
   &:hover ${StyledDeleteContainer} {
     display: block;
   }
@@ -134,7 +146,7 @@ function CardKanban({ id, state, title, updatedAt, callback, cardColor }) {
 
     return (
         <div>
-            <ThemeProvider theme={themeColor[cardColor]?themeColor[cardColor]:themeColor['pink']}>
+            <ThemeProvider theme={themeColor[cardColor] ? themeColor[cardColor] : themeColor['pink']}>
                 <StyledInfoCardContainer>
                     <StyledDeleteContainer>
                         <IconButton onClick={handleCardDelete}

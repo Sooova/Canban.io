@@ -138,6 +138,7 @@ const Dashboard = () => {
                                     <Fade in={open}>
                                         <Box sx={style}>
                                             <AsyncWorkspaceCreate
+                                                modalClose = {handleClose}
                                                 callback={() => refetch()}
                                             />
                                         </Box>

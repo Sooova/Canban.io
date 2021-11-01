@@ -408,6 +408,7 @@ function CanbanContainer() {
                             </div>
                             <NewCard
                                 CardState={CardState}
+                                modalClose = {handleClose}
                                 handleState={handleState}
                                 cardText={cardText}
                                 handleBlur={handleBlur}

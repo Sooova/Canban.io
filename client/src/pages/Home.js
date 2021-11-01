@@ -182,6 +182,13 @@ const StyledButton = styled.button`
 
 
 const Home = () => {
+  function getBaseURL() {
+    return window.location.protocol + "//" + window.location.hostname +
+        (window.location.port && ":" + window.location.port) + "/";
+}
+  const changeLocation = function() {
+    window.location.replace(`${getBaseURL()}signup`)
+  }
   document.body.style = "background-image: none; background-color: #FCF6F6 ";
   return (
     <div>
@@ -211,8 +218,10 @@ const Home = () => {
         </Grid>
       </Grid>
       <Grid container>
-        <StyledButton>
-          Learn more!
+        <StyledButton style = {{
+          color: 'rgb(31, 28, 46)'
+        }}onClick = {changeLocation} >
+          Sign Up
         </StyledButton>
 
         <div style = {{

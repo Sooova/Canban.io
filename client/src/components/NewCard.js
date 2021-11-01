@@ -110,7 +110,7 @@ const NewCard = (props) => {
                     color: props.cardColor
                  }
             });
-            
+            props.modalClose();
             props.callback();
         }
         catch (err){

@@ -16,6 +16,7 @@ import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import EditWorkspace from "./EditWorkspace";
+import { keyframes } from "styled-components";
 
 const style = {
     position: 'absolute',
@@ -28,12 +29,24 @@ const style = {
     p: 4,
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
 const StyledProjectBox = styled.div`
 display: flex;
 border-radius: 10px;
 position: relative;
 padding: 16px;
 box-sizing: border-box;
+animation: ${fadeIn} 0.5s linear; 
+animation-fill-mode: forwards;
 `;
 
 const StyledProjectBoxHeader = styled.div`
