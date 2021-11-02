@@ -67,6 +67,13 @@ margin-right: 50px;
                 <StyledRightP>
                     Recent Actions
                 </StyledRightP>
+                <StyledRightP style={{
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    paddingTop: "5px"
+                }}>
+                    You have no recent actions.
+                </StyledRightP>
             </div>
         </StyledRightContainer>
     )

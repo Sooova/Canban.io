@@ -22,6 +22,7 @@ import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import AsyncWorkspaceCreate from "../components/RepoAsync";
 import canbanloading from "../assets/images/canbanloading.gif";
+import AddWorkspaceContainer from "../components/AddWorkspaceContainer";
 
 const StyledDashboardContainer = styled.div`
     margin-left: ${props => props.width + 20 + "px"};
@@ -173,6 +174,9 @@ const Dashboard = () => {
                                     />
                                 )
                             })}
+                            <AddWorkspaceContainer
+                            handleOpen = {handleOpen}
+                            />
                         </StyledContainingDiv>
                         <RightSidebar
                             width={"1336"} />

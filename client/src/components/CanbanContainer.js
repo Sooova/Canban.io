@@ -23,6 +23,7 @@ import MenuItem from '@mui/material/MenuItem';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import GithubSync from "./SyncGithub";
 import canbanloading from "../assets/images/canbanloading.gif";
+import AddCardColumn from "./AddCardColumn";
 
 const StyledProjectHeading = styled.h2`
 font-family: "DM Sans", sans-serif;
@@ -283,6 +284,11 @@ function CanbanContainer() {
         }
     }
 
+    const initialStateCallback = function(state) {
+        setCardState(state);
+        handleOpen();
+    }
+
     return (
         <div style={{
             display: "flex",
@@ -510,6 +516,10 @@ function CanbanContainer() {
                                                                 </Draggable>
                                                             );
                                                         })}
+                                                        <AddCardColumn
+                                                            initialStateCallback={initialStateCallback}
+                                                            state = {column.name}
+                                                        />
                                                         {provided.placeholder}
                                                     </div>
                                                 );

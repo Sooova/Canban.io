@@ -11,6 +11,7 @@ import { useMutation } from "@apollo/client";
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { Block } from '@mui/icons-material';
 
 const StyledCanbanHeadings = styled.h2`
 font-family: "DM Sans", sans-serif;
@@ -45,6 +46,16 @@ color: rgb(31, 28, 46);
 font-weight: 600;
 opacity:0.7;
 padding-bottom: 10px;
+overflow: hidden; 
+text-overflow: ellipsis;
+`;
+
+const StyledSaveText = styled.p`
+font-family: "DM Sans", sans-serif;
+font-size:15px;
+color: rgb(31, 28, 46);
+font-weight: 600;
+opacity:0.7;
 `;
 
 const StyledButton = styled.button`
@@ -275,7 +286,7 @@ export default function AsyncWorkspaceCreate(props) {
                 <div style = {{
                     display: "flex", 
                     flexDirection: "row",
-                    alignItems: "baseline",
+                    alignItems: "center",
                     justifyContent: "space-between"
 
                 }}
@@ -283,16 +294,31 @@ export default function AsyncWorkspaceCreate(props) {
                     <div style = {{
                         backgroundColor: themeColor[circleColor].bg,
                         flexGrow: "1",
-                        borderRadius: "30px"
+                        borderRadius: "30px", 
+                        marginTop:"5px",
+                        maxWidth: "380px", 
+                        overflow: "hidden",
+                        position: "relative",
                     }}>
+
                         <StyledRightP style = {{
-                            padding:"10px",
+                            padding:"20px",
+                            whiteSpace: "nowrap", 
+                            display: "block",
+
+
                         }}>
-                            Color Preview
+                            {value ? 
+                        value:
+                        "Untitled"    
+                        }
                         </StyledRightP>
                     </div>
                     <StyledButton onClick = {handleNewWorkspace}>
-                        Save
+                        <StyledSaveText>
+                            Save
+                        </StyledSaveText>
+                        
                     </StyledButton>
                 </div>
             </div>

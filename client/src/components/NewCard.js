@@ -80,23 +80,6 @@ padding:5px;
 
 
 const NewCard = (props) => {
-    // const cardText = useRef('untitled')
-    // const cardState = ['toDo', 'inProgress', 'complete']
-    // const [CardState, setCardState] = useState(cardState[2])
-    // const [cardStateIndex, setCardStateIndex] = useState(0)
-    // const handleChange = (e) => {
-    //     cardText.current = e.target.value;
-    // };
-
-    // const handleBlur = () => {
-    //     console.log(cardText.current);
-    // }
-
-    // const handleState = () => {
-    //     setCardStateIndex((cardStateIndex + 1) % 3);
-    //     console.log(cardStateIndex);
-    //     setCardState(cardState[cardStateIndex])
-    // }
 
     const [mutateCard] = useMutation(ADD_CARD);
 
