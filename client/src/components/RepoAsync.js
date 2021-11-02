@@ -253,7 +253,7 @@ export default function AsyncWorkspaceCreate(props) {
                         renderInput={(params) => (
                             <TextField
                                 {...params}
-                                label="Asynchronous"
+                                label="Link a repository"
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (

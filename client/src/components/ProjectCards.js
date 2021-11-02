@@ -17,6 +17,7 @@ import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import EditWorkspace from "./EditWorkspace";
 import { keyframes } from "styled-components";
+import OptionsButton from "./OptionsButton";
 
 const style = {
     position: 'absolute',
@@ -57,22 +58,6 @@ align-items: ceneter;
 justify-content: space-between;
 margin-bottom:16px;
 color: #1f1c2e;
-`;
-
-const StyledMoreButton = styled.button`
-padding: 0;
-width: 24px;
-height:24px;
-position: relative;
-background-color:transparent;
-border:none;
-flex-shrink: 0;
-cursor:pointer:
-opacity:0.6;
-&:hover {
-    cursor:pointer;
-
-}
 `;
 
 const StyledProjectBoxContentHeader = styled.div`
@@ -139,9 +124,17 @@ margin-bottom:2%;
 
 `;
 
-export {StyledCanbanHeadings}
-
 const ProjectCard = function (props) {
+
+    var renderOptionsMiddle = false;
+    if (props.repoName == '') {
+        renderOptionsMiddle = true;
+    }
+    else {
+        renderOptionsMiddle = false;
+    }
+    console.log(renderOptionsMiddle)
+
     const themeColor = {
         pink: {
             bg: "#FFE6E3",
@@ -182,8 +175,8 @@ const ProjectCard = function (props) {
     }
 
     return (
-        <div style={{ padding: "8px", transition: "0.2s"}}>
-            <StyledProjectBox style = {{
+        <div style={{ padding: "8px", transition: "0.2s" }}>
+            <StyledProjectBox style={{
                 backgroundColor: themeColor[props.workspaceColor].bg
             }} onClick={handleCanbanURL}>
                 <StyledProjectBoxHeader>
@@ -193,22 +186,19 @@ const ProjectCard = function (props) {
                         left: "16px",
                         fontSize: "12px"
                     }}>{moment(props.updatedAt).format("MMM Do")}</span>
-                    <div style={{ position: "absolute", right: "10px", top: "2px" }}>
-                        {props.editButton &&
-                            <IconButton onClick={handleOpen}>
-                                <StyledMoreButton >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-more-vertical">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="12" cy="5" r="1"></circle>
-                                        <circle cx="12" cy="19" r="1"></circle>
-                                    </svg>
-                                </StyledMoreButton>
-                            </IconButton>
-                        }
+                        {(props.editButton && renderOptionsMiddle == false) ?
+                            <OptionsButton
+                                optionsMiddle={renderOptionsMiddle}
+                                handleOpen={handleOpen}
+                            />
 
-                    </div>
+                            :
+                            <OptionsButton
+                                optionsMiddle={renderOptionsMiddle}
+                                handleOpen={handleOpen}
+                            />
+
+                        }
                 </StyledProjectBoxHeader>
 
                 <StyledProjectBoxContentHeader>
@@ -217,7 +207,7 @@ const ProjectCard = function (props) {
                     </StyledHeaderP>
                 </StyledProjectBoxContentHeader>
 
-                {props.repoName ?
+                {renderOptionsMiddle == false ?
                     <StyledRepoNameDiv onClick={handleRepositoryLink}>
                         {props.repoName}
                     </StyledRepoNameDiv>
@@ -248,7 +238,7 @@ const ProjectCard = function (props) {
                             updatedAt={parseInt(props.updatedAt)}
                             workspaceID={props.workspaceID}
                             editButton={true}
-                            callback = {() => props.callback()}
+                            callback={() => props.callback()}
                         />
                     </Box>
                 </Fade>

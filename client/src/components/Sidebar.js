@@ -105,6 +105,8 @@ overflow: hidden;
 `;
 
 const StyledProfileLi = styled.li`
+text-decoration: none;
+list-style-type: none;
 @media (max-width: 660px) {
     display:none;
 }
