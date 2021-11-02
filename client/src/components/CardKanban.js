@@ -33,15 +33,16 @@ const StyledInfoCardContainer = styled.div`
   border-radius: 30px;
   padding: 16px;
   border-left: solid 7px ${props => props.theme.bg};
-  min-height: 100px;
   background-color:white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
-  display:inline-flex;
+  display:flex;
   position:relative;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   margin:5px;
-  width:180px;
+  width: 80%;
+  max-width:250px;
+
   animation: ${fadeIn} 0.5s linear; 
   animation-fill-mode: forwards;
   &:hover ${StyledDeleteContainer} {
@@ -54,9 +55,11 @@ font-family: "DM Sans", sans-serif;
 color: rgb(31, 28, 46);
 font-size: 16px;
 line-height: 24px;
-font-weight: 700;
+font-weight: 400;
 opacity: 0.7;
-text-align:center;
+text-align:left;
+padding-top:10px;
+padding-bottom:15px;
 
 `;
 
@@ -69,7 +72,7 @@ const StyledCardDate = styled.h3`
 font-family: "DM Sans", sans-serif;
 color: #4A4A4A;
 opacity: 0.5;
-font-size: 14px;
+font-size: 12px;
 line-height: 16px;
 position:absolute;
 top:7%;
@@ -145,7 +148,6 @@ function CardKanban({ id, state, title, updatedAt, callback, cardColor }) {
 
 
     return (
-        <div>
             <ThemeProvider theme={themeColor[cardColor] ? themeColor[cardColor] : themeColor['pink']}>
                 <StyledInfoCardContainer>
                     <StyledDeleteContainer>
@@ -178,9 +180,6 @@ function CardKanban({ id, state, title, updatedAt, callback, cardColor }) {
 
                 </StyledInfoCardContainer>
             </ThemeProvider>
-
-
-        </div>
     )
 }
 

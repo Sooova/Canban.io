@@ -176,6 +176,9 @@ margin-right: auto;
 width: 100px;
 `;
 
+const StyledDivWidthContainer = styled.div`
+    width:100%;
+`;
 
 function CanbanContainer() {
     var syncButtonRender = false;
@@ -284,7 +287,7 @@ function CanbanContainer() {
         }
     }
 
-    const initialStateCallback = function(state) {
+    const initialStateCallback = function (state) {
         setCardState(state);
         handleOpen();
     }
@@ -294,25 +297,23 @@ function CanbanContainer() {
             display: "flex",
             justifyContent: "space-evenly",
             alignItems: "first baseline",
-            marginTop: "5%",
+            
         }}>
 
             <div style={{
                 display: "flex", justifyContent: "center", height: "100%",
                 backgroundColor: "white",
                 borderRadius: "30px",
-                maxWidth: "900px",
+                // maxWidth: "900px",
                 // boxShadow: "0 2px 6px rgba(0, 0, 0, .3)",
-                height: "800px",
+                minHeight: "800px",
                 position: "relative",
-                padding: "30px",
-                flexDirection: "column"
+                flexDirection: "column",
+                margin: "30px",
+                paddingLeft:"20px", 
+                paddingRight:"20px"
 
             }}>
-                {loading ?
-                    <StyledCanbanLoader src={canbanloading} />
-                    : ""
-                }
                 <div style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -447,6 +448,7 @@ function CanbanContainer() {
                     <div style={{
                         display: "flex",
                         flexDirection: "row",
+                        position: "relative"
 
                     }}>
 
@@ -457,6 +459,7 @@ function CanbanContainer() {
                                         display: "flex",
                                         flexDirection: "column",
                                         alignItems: "center",
+                                        width: "33%"
                                     }}
                                     key={columnId}
                                 >
@@ -481,9 +484,10 @@ function CanbanContainer() {
                                                                 ? "lightblue"
                                                                 : "",
                                                             padding: 4,
-                                                            width: 250,
-                                                            height: 625,
-                                                            overflowY: "auto",
+                                                            // width: 257,
+                                                            minHeight: 625,
+                                                            // overflowY: "auto",
+                                                            position: "relative"
                                                         }}
                                                     >
                                                         {column.items.map((item, index) => {
@@ -495,11 +499,15 @@ function CanbanContainer() {
                                                                 >
                                                                     {(provided, snapshot) => {
                                                                         return (
-                                                                            <div
+                                                                            <StyledDivWidthContainer
+                                                                            ref={provided.innerRef}
+                                                                            {...provided.draggableProps}
+                                                                            {...provided.dragHandleProps}>
+                                                                            {/* <div
                                                                                 ref={provided.innerRef}
                                                                                 {...provided.draggableProps}
                                                                                 {...provided.dragHandleProps}
-                                                                            >
+                                                                            > */}
                                                                                 <CardKanban
                                                                                     key={item.id}
                                                                                     id={item.id}
@@ -510,20 +518,23 @@ function CanbanContainer() {
                                                                                     callback={() => refetch()}
                                                                                 />
 
-                                                                            </div>
+                                                                            {/* </div> */}
+                                                                            </StyledDivWidthContainer>
                                                                         );
                                                                     }}
+                                                                    
                                                                 </Draggable>
                                                             );
                                                         })}
                                                         <AddCardColumn
                                                             initialStateCallback={initialStateCallback}
-                                                            state = {column.name}
+                                                            state={column.name}
                                                         />
                                                         {provided.placeholder}
                                                     </div>
                                                 );
                                             }}
+                                            
                                         </Droppable>
                                     </div>
                                 </div>
@@ -531,6 +542,10 @@ function CanbanContainer() {
                         })}
                     </div>
                 </DragDropContext>
+                {loading ?
+                    <StyledCanbanLoader src={canbanloading} />
+                    : ""
+                }
             </div >
             <RightSidebar
                 width={"1500"}

@@ -125,7 +125,7 @@ const Dashboard = () => {
                                 flexDirection: "row"
                             }}>
                                 <StyledCanbanHeadings>
-                                    Workspace
+                                    Workspaces
                                 </StyledCanbanHeadings>
                                 <IconButton onClick={handleOpen}>
                                     <AddCircleOutlineOutlinedIcon
@@ -148,7 +148,7 @@ const Dashboard = () => {
                                     <Fade in={open}>
                                         <Box sx={style}>
                                             <AsyncWorkspaceCreate
-                                                modalClose = {handleClose}
+                                                modalClose={handleClose}
                                                 callback={() => refetch()}
                                             />
                                         </Box>
@@ -156,10 +156,6 @@ const Dashboard = () => {
                                 </Modal>
                             </div>
 
-                            {loading ?
-                            <StyledCanbanLoader src = {canbanloading}/>
-                            : ""
-                            }
                             {data && data.getWorkspaces.map((workspace) => {
                                 return (
                                     <ProjectCard
@@ -175,8 +171,12 @@ const Dashboard = () => {
                                 )
                             })}
                             <AddWorkspaceContainer
-                            handleOpen = {handleOpen}
+                                handleOpen={handleOpen}
                             />
+                            {loading ?
+                                <StyledCanbanLoader src={canbanloading} />
+                                : ""
+                            }
                         </StyledContainingDiv>
                         <RightSidebar
                             width={"1336"} />
