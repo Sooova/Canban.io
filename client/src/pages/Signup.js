@@ -10,7 +10,7 @@ import { H2 } from '../components/Text';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Button } from '../components/Button';
 import styled from 'styled-components';
-import { Style } from '@mui/icons-material';
+import { Opacity, Style } from '@mui/icons-material';
 import canbanbackground from '../assets/images/canban transparent background.png'
 
 const StyledSignupP = styled.p`
@@ -69,8 +69,10 @@ function Signup(props) {
   document.body.style = "background-image: url('https://i.imgur.com/EIUl7II.png'); background-color: #FFC3C3 ";
   const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', githubUser: '', password: '' });
   const [addUser] = useMutation(ADD_USER);
+ var awaitingFormSubmit = false;
 
   const handleFormSubmit = async (event) => {
+    awaitingFormSubmit = true;
     event.preventDefault();
     const mutationResponse = await addUser({
       variables: {
@@ -81,6 +83,7 @@ function Signup(props) {
         password: formState.password,
       },
     });
+    awaitingFormSubmit = false;
     const token = mutationResponse.data.addUser.token;
     Auth.login(token);
   };
@@ -107,7 +110,21 @@ function Signup(props) {
         justifyContent: "center",
         flexDirection: "column",
         position: "relative",
+        overflow: "hidden"
       }}>
+        {awaitingFormSubmit == true ?
+      <div style = {{
+        position: "absolute", 
+        width: "100%", 
+        height: "100%", 
+        backgroundColor: "black",
+        opacity: "0.3",
+      }}>
+
+        </div>
+        : ""
+      }
+        
         <form onSubmit={handleFormSubmit}>
           <div style={{
             display: "flex",
