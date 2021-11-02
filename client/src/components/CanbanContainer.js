@@ -22,6 +22,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import GithubSync from "./SyncGithub";
+import canbanloading from "../assets/images/canbanloading.gif";
 
 const StyledProjectHeading = styled.h2`
 font-family: "DM Sans", sans-serif;
@@ -165,6 +166,16 @@ const style = {
     paddingBottom: "50px",
 };
 
+const StyledCanbanLoader = styled.img`
+position: absolute; 
+left: 0; 
+right: 0; 
+margin-left: auto; 
+margin-right: auto; 
+width: 100px;
+`;
+
+
 function CanbanContainer() {
     var syncButtonRender = false;
     const { data: userData, refetch: refetchUser } = useQuery(QUERY_USER);
@@ -262,9 +273,9 @@ function CanbanContainer() {
     }, [data])
 
 
-    
-    if(userData && workspaceData ) {
-        if(userData.user.githubUser == '') {
+
+    if (userData && workspaceData) {
+        if (userData.user.githubUser == '') {
             syncButtonRender = false;
         }
         else {
@@ -292,6 +303,10 @@ function CanbanContainer() {
                 flexDirection: "column"
 
             }}>
+                {loading ?
+                    <StyledCanbanLoader src={canbanloading} />
+                    : ""
+                }
                 <div style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -305,7 +320,7 @@ function CanbanContainer() {
                             workspaceData.getWorkspaceName.title
                         }
                     </StyledProjectHeading>
-                    <div style = {{
+                    <div style={{
                         display: "flex",
                         flexDirection: "row",
                     }}>
@@ -408,7 +423,7 @@ function CanbanContainer() {
                             </div>
                             <NewCard
                                 CardState={CardState}
-                                modalClose = {handleClose}
+                                modalClose={handleClose}
                                 handleState={handleState}
                                 cardText={cardText}
                                 handleBlur={handleBlur}

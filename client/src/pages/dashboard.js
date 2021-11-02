@@ -21,6 +21,7 @@ import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import AsyncWorkspaceCreate from "../components/RepoAsync";
+import canbanloading from "../assets/images/canbanloading.gif";
 
 const StyledDashboardContainer = styled.div`
     margin-left: ${props => props.width + 20 + "px"};
@@ -64,6 +65,14 @@ const style = {
     display: "flex",
     justifyContent: "center",
 };
+
+const StyledCanbanLoader = styled.img`
+    width:100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:100px;
+    padding-bottom:100px;
+`;
 
 const Dashboard = () => {
     function getBaseURL() {
@@ -146,6 +155,10 @@ const Dashboard = () => {
                                 </Modal>
                             </div>
 
+                            {loading ?
+                            <StyledCanbanLoader src = {canbanloading}/>
+                            : ""
+                            }
                             {data && data.getWorkspaces.map((workspace) => {
                                 return (
                                     <ProjectCard
