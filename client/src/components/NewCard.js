@@ -157,13 +157,7 @@ const NewCard = (props) => {
                         {moment().format("MMM Do")}
                     </StyledCardDate>
                     <StyledCardTitle>
-                        {/* <ContentEditable
-                            html={props.cardText.current}
-                            onBlur={props.handleBlur}
-                            disabled={false}
-                            onChange={props.handleTextChange}
-                        /> */}
-                        {props.cardText.current}
+                        {props.cardText.current ? props.cardText.current: "Add a title up the top!"}
                     </StyledCardTitle>
                     <ThemeProvider theme={themeState[props.CardState]}>
                     <StyledTagContainer onClick={props.handleState}>

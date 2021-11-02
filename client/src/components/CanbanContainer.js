@@ -178,6 +178,8 @@ width: 100px;
 
 const StyledDivWidthContainer = styled.div`
     width:100%;
+    display:flex;
+    justify-content:center;
 `;
 
 function CanbanContainer() {
@@ -311,7 +313,8 @@ function CanbanContainer() {
                 flexDirection: "column",
                 margin: "30px",
                 paddingLeft:"20px", 
-                paddingRight:"20px"
+                paddingRight:"20px",
+                flexGrow:"1",
 
             }}>
                 <div style={{
@@ -448,7 +451,8 @@ function CanbanContainer() {
                     <div style={{
                         display: "flex",
                         flexDirection: "row",
-                        position: "relative"
+                        position: "relative",
+                        
 
                     }}>
 
@@ -459,7 +463,9 @@ function CanbanContainer() {
                                         display: "flex",
                                         flexDirection: "column",
                                         alignItems: "center",
-                                        width: "33%"
+                                        width: "33%",
+                                        flexGrow:'1',
+                                        position:"relative"
                                     }}
                                     key={columnId}
                                 >
@@ -468,7 +474,7 @@ function CanbanContainer() {
                                     }}>
                                         {column.name}
                                     </StyledCanbanHeadings>
-                                    <div style={{ margin: 8 }}>
+                                    <div style={{ margin: 8, width:"100%", }}>
                                         <Droppable droppableId={columnId} key={columnId}>
                                             {(provided, snapshot) => {
                                                 return (
@@ -487,7 +493,8 @@ function CanbanContainer() {
                                                             // width: 257,
                                                             minHeight: 625,
                                                             // overflowY: "auto",
-                                                            position: "relative"
+                                                            position: "relative",
+                                                            flexGrow:'1',
                                                         }}
                                                     >
                                                         {column.items.map((item, index) => {
