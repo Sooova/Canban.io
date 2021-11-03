@@ -47,6 +47,7 @@ const StyledInfoCardContainer = styled.div`
   &:hover ${StyledDeleteContainer} {
     display: block;
   }
+  white-space: normal;
 `;
 
 const StyledCardTitle = styled.h2`

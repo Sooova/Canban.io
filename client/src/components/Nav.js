@@ -19,7 +19,6 @@ const NavigationList = styled.ul`
 	display: flex;
 	vertical-align: top;
 	width: 100%;
-
 	${props => props.float && `
 		justify-content: end;
 	`}

@@ -34,6 +34,9 @@ const StyledSidebarContainer = styled.div`
         padding:20px;
         padding-top:10%;
     }
+    @media (max-width: 500px) {
+        display:none;
+    }
     top: 0;
 `;
 

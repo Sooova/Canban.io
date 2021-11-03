@@ -23,6 +23,7 @@ import Backdrop from '@mui/material/Backdrop';
 import AsyncWorkspaceCreate from "../components/RepoAsync";
 import canbanloading from "../assets/images/canbanloading.gif";
 import AddWorkspaceContainer from "../components/AddWorkspaceContainer";
+import MobileBar from "../components/MobileBar";
 
 const StyledDashboardContainer = styled.div`
     margin-left: ${props => props.width + 20 + "px"};
@@ -40,7 +41,7 @@ margin-bottom:2%;
 
 const StyledContainingDiv = styled.div`
 display: flex;
-justif-content: space-between;
+justify-content: space-between;
 flex-direction: column;
 background-color: white;
 border-radius: 30px;
@@ -48,8 +49,10 @@ padding: 50px;
 flex-grow: 1;
 margin-right:50px;
 @media (max-width: 550px) {
-    padding:15px;
+    padding:0px;
+    padding-top:10px;
     margin-right:10px;
+    margin-left:10px;
 }
 `;
 
@@ -73,6 +76,14 @@ const StyledCanbanLoader = styled.img`
     margin-right: auto;
     margin-top:100px;
     padding-bottom:100px;
+`;
+
+const StyledParentDiv = styled.div`
+    margin-top:60px;
+
+    @media (max-width: 500px) {
+        margin-top: 0px;
+    }
 `;
 
 const Dashboard = () => {
@@ -106,9 +117,7 @@ const Dashboard = () => {
     if (Auth.loggedIn()) {
 
         return (
-            <div style={{
-                marginTop: "60px"
-            }}>
+            <StyledContainingDiv>
                 <Sidebar parentRef={sidebarRef} />
                 <StyledDashboardContainer width={sidebarWidth}>
                     <div style={{
@@ -184,8 +193,8 @@ const Dashboard = () => {
 
 
                 </StyledDashboardContainer>
-
-            </div>
+                <MobileBar/>
+            </StyledContainingDiv>
 
         )
     } else {

@@ -25,6 +25,26 @@ import GithubSync from "./SyncGithub";
 import canbanloading from "../assets/images/canbanloading.gif";
 import AddCardColumn from "./AddCardColumn";
 
+const StyledMainCanbanContainer = styled.div`
+display: flex;
+justify-Content: center;
+height: 100%;
+background-color: white;
+border-radius: 30px;
+min-height: 800px;
+position: relative;
+flex-direction: column;
+margin: 30px;
+padding-left: 20px;
+padding-right: 20px;
+flex-grow: 1;
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+@media (max-width: 500px) {
+    margin:10px;
+  }
+`;
+
 const StyledProjectHeading = styled.h2`
 font-family: "DM Sans", sans-serif;
 font-size: 35px;
@@ -48,6 +68,15 @@ const StyledCanbanParentContainer = styled.div`
 
 const StyledCanbanContainerColumn = styled.div`
 
+`;
+
+const StyledColumnContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: left;
+width: ${props => props.width};
+flex-grow:1;
+position: relative;
 `;
 
 const StyledCanbanHeadings = styled.h2`
@@ -180,10 +209,18 @@ const StyledDivWidthContainer = styled.div`
     width:100%;
     display:flex;
     justify-content:center;
+    scroll-behavior: smooth;
+    scroll-snap-align: center;
 `;
 
 function CanbanContainer() {
     var syncButtonRender = false;
+    const mainContainerRef = useRef();
+    useEffect(() => {
+        console.log('width', mainContainerRef.current ? mainContainerRef.current.offsetWidth : 0);
+    }, mainContainerRef.current)
+
+
     const { data: userData, refetch: refetchUser } = useQuery(QUERY_USER);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -294,29 +331,27 @@ function CanbanContainer() {
         handleOpen();
     }
 
+    const getColumnName = function (column) {
+        if (column == 'toDo') {
+            return 'To Do'
+        }
+        else if (column == 'inProgress') {
+            return 'In Progress'
+        }
+        else if (column == 'complete') {
+            return 'Complete'
+        }
+    }
+
     return (
         <div style={{
             display: "flex",
             justifyContent: "space-evenly",
             alignItems: "first baseline",
-            
+
         }}>
 
-            <div style={{
-                display: "flex", justifyContent: "center", height: "100%",
-                backgroundColor: "white",
-                borderRadius: "30px",
-                // maxWidth: "900px",
-                // boxShadow: "0 2px 6px rgba(0, 0, 0, .3)",
-                minHeight: "800px",
-                position: "relative",
-                flexDirection: "column",
-                margin: "30px",
-                paddingLeft:"20px", 
-                paddingRight:"20px",
-                flexGrow:"1",
-
-            }}>
+            <StyledMainCanbanContainer ref={mainContainerRef}>
                 <div style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -452,61 +487,65 @@ function CanbanContainer() {
                         display: "flex",
                         flexDirection: "row",
                         position: "relative",
-                        
+                        overflowX: 'auto',
+                        scrollSnapType: 'x mandatory',
+                        // whiteSpace: 'nowrap',
 
                     }}>
 
                         {Object.entries(columns).map(([columnId, column], index) => {
+                            var childContainerWidth;
+                            var mainContainerWidth;
+                            if (mainContainerRef.current) {
+                                childContainerWidth = mainContainerRef.current.offsetWidth < 500 ? `${(mainContainerRef.current.offsetWidth) - 50}px` : 'auto';
+                                mainContainerWidth = mainContainerRef.current.offsetWidth < 500 ? '100%' : '33%'
+                                console.log(mainContainerRef);
+                            }
                             return (
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        width: "33%",
-                                        flexGrow:'1',
-                                        position:"relative"
-                                    }}
-                                    key={columnId}
-                                >
+
+                                <StyledColumnContainer width={mainContainerWidth} key={columnId}>
                                     <StyledCanbanHeadings style={{
-                                        marginTop: "30px"
+                                        marginTop: "30px",
+                                        paddingLeft: "50px",
                                     }}>
-                                        {column.name}
+                                        {getColumnName(column.name)}
                                     </StyledCanbanHeadings>
-                                    <div style={{ margin: 8, width:"100%", }}>
-                                        <Droppable droppableId={columnId} key={columnId}>
-                                            {(provided, snapshot) => {
-                                                return (
-                                                    <div
-                                                        {...provided.droppableProps}
-                                                        ref={provided.innerRef}
-                                                        style={{
-                                                            display: "flex",
-                                                            flexDirection: "column",
-                                                            alignItems: "center",
-                                                            borderRadius: "30px",
-                                                            background: snapshot.isDraggingOver
-                                                                ? "lightblue"
-                                                                : "",
-                                                            padding: 4,
-                                                            // width: 257,
-                                                            minHeight: 625,
-                                                            // overflowY: "auto",
-                                                            position: "relative",
-                                                            flexGrow:'1',
-                                                        }}
-                                                    >
-                                                        {column.items.map((item, index) => {
-                                                            return (
-                                                                <Draggable
-                                                                    key={item.id}
-                                                                    draggableId={item.id}
-                                                                    index={index}
-                                                                >
-                                                                    {(provided, snapshot) => {
-                                                                        return (
-                                                                            <StyledDivWidthContainer
+                                    <Droppable droppableId={columnId} key={columnId}>
+                                        {(provided, snapshot) => {
+                                            return (
+                                                <div
+                                                    {...provided.droppableProps}
+                                                    ref={provided.innerRef}
+                                                    style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                        borderRadius: "30px",
+                                                        background: snapshot.isDraggingOver
+                                                            ? "lightblue"
+                                                            : "",
+                                                        padding: 4,
+                                                        // width: 257,
+                                                        minHeight: 625,
+                                                        // overflowY: "auto",
+                                                        position: "relative",
+                                                        flexGrow: '1',
+                                                        width: childContainerWidth,
+                                                        justifyContent: 'left',
+                                                        scrollSnapType: 'x mandatory',
+                                                    }}
+                                                >
+                                                    {column.items.map((item, index) => {
+                                                        return (
+                                                            <Draggable
+                                                                key={item.id}
+                                                                draggableId={item.id}
+                                                                index={index}
+                                                            >
+                                                                {(provided, snapshot) => {
+                                                                    return (
+                                                                        <StyledDivWidthContainer style={{
+                                                                        }}
                                                                             ref={provided.innerRef}
                                                                             {...provided.draggableProps}
                                                                             {...provided.dragHandleProps}>
@@ -515,36 +554,35 @@ function CanbanContainer() {
                                                                                 {...provided.draggableProps}
                                                                                 {...provided.dragHandleProps}
                                                                             > */}
-                                                                                <CardKanban
-                                                                                    key={item.id}
-                                                                                    id={item.id}
-                                                                                    state={column.name}
-                                                                                    title={item.title}
-                                                                                    time={item.updatedAt}
-                                                                                    cardColor={item.color}
-                                                                                    callback={() => refetch()}
-                                                                                />
+                                                                            <CardKanban
+                                                                                key={item.id}
+                                                                                id={item.id}
+                                                                                state={column.name}
+                                                                                title={item.title}
+                                                                                time={item.updatedAt}
+                                                                                cardColor={item.color}
+                                                                                callback={() => refetch()}
+                                                                            />
 
                                                                             {/* </div> */}
-                                                                            </StyledDivWidthContainer>
-                                                                        );
-                                                                    }}
-                                                                    
-                                                                </Draggable>
-                                                            );
-                                                        })}
-                                                        <AddCardColumn
-                                                            initialStateCallback={initialStateCallback}
-                                                            state={column.name}
-                                                        />
-                                                        {provided.placeholder}
-                                                    </div>
-                                                );
-                                            }}
-                                            
-                                        </Droppable>
-                                    </div>
-                                </div>
+                                                                        </StyledDivWidthContainer>
+                                                                    );
+                                                                }}
+
+                                                            </Draggable>
+                                                        );
+                                                    })}
+                                                    <AddCardColumn
+                                                        initialStateCallback={initialStateCallback}
+                                                        state={column.name}
+                                                    />
+                                                    {provided.placeholder}
+                                                </div>
+                                            );
+                                        }}
+
+                                    </Droppable>
+                                </StyledColumnContainer>
                             );
                         })}
                     </div>
@@ -553,7 +591,7 @@ function CanbanContainer() {
                     <StyledCanbanLoader src={canbanloading} />
                     : ""
                 }
-            </div >
+                </StyledMainCanbanContainer>
             <RightSidebar
                 width={"1500"}
             />

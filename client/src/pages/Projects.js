@@ -12,6 +12,7 @@ import ProjectCard from "../components/ProjectCards";
 import { QUERY_USER, GET_WORKSPACES } from "../gql/queries";
 import { useQuery } from "@apollo/client";
 import CanbanContainer from "../components/CanbanContainer";
+import MobileBar from "../components/MobileBar";
 
 
 const StyledDashboardContainer = styled.div`
@@ -46,6 +47,7 @@ const Projects = function () {
                 <StyledDashboardContainer width={sidebarWidth}>
                     <CanbanContainer />
                 </StyledDashboardContainer>
+                <MobileBar/>
             </>
         )
     } else {

@@ -28,6 +28,7 @@ import RightSidebar from './components/RightSidebar';
 import Asynchronous from './components/RepoAsync';
 import PrivacyPolicy from './pages/Privacy Policy';
 import GithubSync from './components/SyncGithub';
+import MobileBar from './components/MobileBar';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -62,7 +63,7 @@ function App() {
             <Route exact path = "/dashboard" component = {Dashboard}/>
             <Route exact path ="/projects" component = {Projects}/>
             {/* <Route exact path = "/newworkspace" component = {NewWorkspace}/> */}
-            {/* <Route exact path = "/componenttesting" component = {GithubSync}/> */}
+            <Route exact path = "/componenttesting" component = {MobileBar}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>
