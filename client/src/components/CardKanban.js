@@ -42,7 +42,6 @@ const StyledInfoCardContainer = styled.div`
   margin:5px;
   width: 80%;
   max-width:250px;
-
   animation: ${fadeIn} 0.5s linear; 
   animation-fill-mode: forwards;
   &:hover ${StyledDeleteContainer} {
