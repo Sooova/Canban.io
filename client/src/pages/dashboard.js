@@ -24,6 +24,7 @@ import AsyncWorkspaceCreate from "../components/RepoAsync";
 import canbanloading from "../assets/images/canbanloading.gif";
 import AddWorkspaceContainer from "../components/AddWorkspaceContainer";
 import MobileBar from "../components/MobileBar";
+import { useMediaQuery } from 'react-responsive'
 
 const StyledDashboardContainer = styled.div`
     margin-left: ${props => props.width + 20 + "px"};
@@ -61,7 +62,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
+    minWidth: 400,
     bgcolor: 'background.paper',
     borderRadius: "30px",
     p: 4,
@@ -99,7 +100,7 @@ const Dashboard = () => {
     const handleClose = () => setOpen(false);
 
     const [deleteWorkspace] = useMutation(DELETE_WORKSPACE);
-
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 500px)' })
 
     useEffect(() => {
         const updateWidth = () => {
@@ -113,6 +114,16 @@ const Dashboard = () => {
             window.removeEventListener('resize', updateWidth);
         }
     }, [])
+
+    const mobileStyle = function(boolean) {
+        if (boolean == true) {
+            return {transform: 'scale(0.6)'}
+        }
+        else {
+            return {}
+        }
+
+    }
 
     if (Auth.loggedIn()) {
 
@@ -143,7 +154,7 @@ const Dashboard = () => {
                                         }}
                                         fontSize="large" />
                                 </IconButton>
-                                <Modal
+                                <Modal 
                                     aria-labelledby="transition-modal-title"
                                     aria-describedby="transition-modal-description"
                                     open={open}
@@ -157,6 +168,7 @@ const Dashboard = () => {
                                     <Fade in={open}>
                                         <Box sx={style}>
                                             <AsyncWorkspaceCreate
+                                                isTabletOrMobile = {isTabletOrMobile}
                                                 modalClose={handleClose}
                                                 callback={() => refetch()}
                                             />

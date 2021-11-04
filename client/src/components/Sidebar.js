@@ -38,6 +38,7 @@ const StyledSidebarContainer = styled.div`
         display:none;
     }
     top: 0;
+    left:0;
 `;
 
 const StyledUl = styled.ul`
@@ -115,11 +116,6 @@ list-style-type: none;
 }
 `;
 
-const SidebarP = props => <StyledP />
-const SidebarUl = props => <StyledUl />
-const SidebarLi = props => <StyledSidebarLi />
-const SidebarContainer = props => <StyledSidebarContainer />
-const SidebarH1 = props => <StyledSidebarH1 />
 
 function Sidebar({ parentRef }) {
     var profileRender = false;

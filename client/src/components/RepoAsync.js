@@ -187,7 +187,19 @@ export default function AsyncWorkspaceCreate(props) {
         }
     }, [open]);
 
+    const mobileStyle = function(boolean) {
+        if (boolean == true) {
+            return {transform: 'scale(0.7)'}
+        }
+        else {
+            return {}
+        }
+
+    }
+
     return (
+        <div style = {mobileStyle(props.isTabletOrMobile)}>
+
         <div style={{
             display: "flex",
             justifyContent: "center",
@@ -322,6 +334,7 @@ export default function AsyncWorkspaceCreate(props) {
                     </StyledButton>
                 </div>
             </div>
+        </div>
         </div>
     );
 }
