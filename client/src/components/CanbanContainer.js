@@ -220,7 +220,6 @@ function CanbanContainer() {
         console.log('width', mainContainerRef.current ? mainContainerRef.current.offsetWidth : 0);
     }, mainContainerRef.current)
 
-
     const { data: userData, refetch: refetchUser } = useQuery(QUERY_USER);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);

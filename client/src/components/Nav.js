@@ -22,6 +22,8 @@ const NavigationList = styled.ul`
 	${props => props.float && `
 		justify-content: end;
 	`}
+	align-items: center;
+
 `;
 
 const NavigationItem = styled.li`
@@ -38,11 +40,20 @@ const NavigationItem = styled.li`
 	&:hover {
 		background: ${color.backgroundLight};
 	}
+	@media (max-width:500px) {
+		transform:scale(0.);
+		padding:0.5rem;
+		margin:0.5rem;
+		margin-top:1rem;
+	}
 `;
 
 const StyledCanbanio = styled.img`
 	width:250px;
 	display:block;
+	@media (max-width:500px) {
+		width:125px;
+	}
 `;
 
 function AuthNav() {

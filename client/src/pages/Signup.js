@@ -12,6 +12,7 @@ import { Button } from '../components/Button';
 import styled from 'styled-components';
 import { Opacity, Style } from '@mui/icons-material';
 import canbanbackground from '../assets/images/canban transparent background.png'
+import canbanloading from "../assets/images/canbanloading.gif";
 
 const StyledSignupP = styled.p`
 font-family: "DM Sans", sans-serif;
@@ -24,6 +25,14 @@ padding-top:40px;
 
 const StyledPaddingDiv = styled.div`
   padding: 20px;
+`;
+
+const StyledCanbanLoader = styled.img`
+    width:100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:100px;
+    padding-bottom:100px;
 `;
 
 const StyledSignupHeader = styled.h1`
@@ -39,6 +48,9 @@ const StyledSignupHeader = styled.h1`
     @media (max-width: 745px) {
       font-size:55px
     }
+    @media (max-width: 500px) {
+    font-size:35px;
+  }
 `;
 const StyledSignupBreadcrumb = styled.p`
 font-family: "DM Sans", sans-serif;
@@ -62,14 +74,42 @@ const StyledButton = styled.button`
   width:150px;
   display:block;
   margin-top: 20px;
+  @media (max-width: 500px) {
+    font-size:15px;
+    width:100px;
+  }
 `;
 
+const StyledWhiteContainer = styled.div`
+  width: 35%;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  @media (max-width: 1500px) {
+    width:45%
+  }
+  @media (max-width: 1000px) {
+    width:60%
+  }
+  @media (max-width: 700px) {
+    width:80%
+  }
+  @media (max-width: 500px) {
+    width:90%;
+    margin-top:30px;
+  }
+
+`;
 
 function Signup(props) {
   document.body.style = "background-image: url('https://i.imgur.com/EIUl7II.png'); background-color: #FFC3C3 ";
   const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', githubUser: '', password: '' });
   const [addUser] = useMutation(ADD_USER);
- var awaitingFormSubmit = false;
+  var awaitingFormSubmit = false;
 
   const handleFormSubmit = async (event) => {
     awaitingFormSubmit = true;
@@ -97,34 +137,27 @@ function Signup(props) {
   };
 
   return (
-    <div style={{
+    <div style = {{
       display: "flex",
       justifyContent: "center",
-      marginTop: "3%",
     }}>
-      <div style={{
-        width: "35%",
-        backgroundColor: "white",
-        borderRadius: "30px",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        position: "relative",
-        overflow: "hidden"
-      }}>
+      <StyledWhiteContainer>
         {awaitingFormSubmit == true ?
-      <div style = {{
-        position: "absolute", 
-        width: "100%", 
-        height: "100%", 
-        backgroundColor: "black",
-        opacity: "0.3",
-      }}>
+        <>
+        <StyledCanbanLoader src = {canbanloading}/>
+          <div style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "black",
+            opacity: "0.3",
+          }}>
 
-        </div>
-        : ""
-      }
-        
+          </div>
+          </>
+          : ""
+        }
+
         <form onSubmit={handleFormSubmit}>
           <div style={{
             display: "flex",
@@ -145,12 +178,12 @@ function Signup(props) {
             </StyledSignupP>
             <TextField
               required
-              name = "firstName"
+              name="firstName"
               id="firstName"
               label="Required"
               defaultValue=""
               variant="standard"
-              onChange = {handleChange}
+              onChange={handleChange}
             />
 
             <StyledSignupP>
@@ -159,11 +192,11 @@ function Signup(props) {
             <TextField
               required
               id="lastName"
-              name = "lastName"
+              name="lastName"
               label="Required"
               defaultValue=""
               variant="standard"
-              onChange = {handleChange}
+              onChange={handleChange}
             />
 
             <StyledSignupP>
@@ -172,12 +205,12 @@ function Signup(props) {
             <TextField
               required
               id="email"
-              name = "email"
+              name="email"
               label="Required"
-              type = "email"
+              type="email"
               defaultValue=""
               variant="standard"
-              onChange = {handleChange}
+              onChange={handleChange}
             />
 
             <StyledSignupP>
@@ -185,11 +218,11 @@ function Signup(props) {
             </StyledSignupP>
             <TextField
               id="githubUser"
-              name = "githubUser"
+              name="githubUser"
               label="Github User"
               defaultValue=""
               variant="standard"
-              onChange = {handleChange}
+              onChange={handleChange}
             />
 
             <StyledSignupP>
@@ -198,27 +231,27 @@ function Signup(props) {
             <TextField
               id="password"
               label="Password"
-              name = "password"
+              name="password"
               type="password"
               autoComplete="current-password"
               variant="standard"
-              onChange = {handleChange}
+              onChange={handleChange}
               sx={{
                 marginBottom: "20px",
               }}
             />
-            <div style = {{
-              display:"flex",
+            <div style={{
+              display: "flex",
               justifyContent: "right"
             }}>
-            <StyledButton type = {"submit"}>
-              Sign Up
-            </StyledButton>
+              <StyledButton type={"submit"}>
+                Sign Up
+              </StyledButton>
             </div>
           </div>
         </form>
 
-      </div>
+      </StyledWhiteContainer>
     </div>
   );
 }

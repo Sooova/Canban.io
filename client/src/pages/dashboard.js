@@ -122,7 +122,6 @@ const Dashboard = () => {
         else {
             return {}
         }
-
     }
 
     if (Auth.loggedIn()) {

@@ -11,6 +11,8 @@ import githubLogo from '../assets/images/GitHub-logo.png';
 import canbanio from '../assets/images/canbanio.png';
 import { Button } from "@mui/material";
 import { createTheme } from '@mui/material/styles';
+import { useMediaQuery } from 'react-responsive'
+import Auth from "../utils/auth";
 
 const theme = createTheme({
   palette: {
@@ -52,6 +54,11 @@ opacity: 0.8;
 font-size: 45px;
 text-align:center;
 margin-top:20%;
+@media (max-width: 500px) {
+  font-size:30px;
+  margin-left:30px;
+  margin-right:30px;
+}
 `;
 
 const StyledLandingAbout = styled.p`
@@ -65,6 +72,9 @@ line-height:150%;
 }
 @media (max-width: 745px) {
   font-size:15px
+}
+@media (max-width: 500px) {
+  max-width:100%
 }
 `;
 
@@ -80,8 +90,8 @@ width:150px;
   width:100px;
 }
 
-@media (max-width: 425px) {
-  width:125px;
+@media (max-width: 500px) {
+  width:70px;
 }
 `;
 
@@ -91,7 +101,12 @@ const StyledInfoCardImage = styled.img`
   display:block;
   margin: auto;
   @media (max-width: 1500px) {
-    width: 100px;}
+    width: 100px;
+  }
+  @media (max-width: 500px) {
+    width: 70px;
+  }
+
 `;
 
 const StyledInfoCardImageGithub = styled.img`
@@ -112,6 +127,9 @@ const StyledInfoCardImageCommit = styled.img`
   @media (max-width: 1500px) {
     width: 300px
   }
+  @media (max-width: 500px) {
+    width: 200px
+  }
 `;
 
 const StyledBottomInfoDiv = styled.div`
@@ -129,6 +147,12 @@ const StyledInfoCard = styled.div`
   @media (max-width: 1189px) {
     max-width:400px;
   }
+  @media (max-width: 500px) {
+    max-width:320px;
+    padding:3%;
+    min-height:0px;
+    margin-top:20px;
+  }
 `;
 
 const StyledInfoCardText = styled.p`
@@ -141,6 +165,10 @@ padding:4%;
 margin-left:20px;
 margin-right:20px;
 line-height:150%;
+@media (max-width: 500px) {
+    font-size:15px;
+    padding:3%;
+  }
 `;
 
 const StyledCanbanio = styled.img`
@@ -178,8 +206,19 @@ const StyledButton = styled.button`
   margin-left: auto;
   margin-right:25%;
   margin-top:5%;
+  @media (max-width:500px) {
+    transform: scale(0.7);
+    margin-right: 0%;
+    width:200px;
+    margin-top:0%;
+  }
 `;
 
+const StyledMobileHeroDiv = styled.div`
+  @media (max-width:500px) {
+    transform: scale(0.7);
+  }
+`;
 
 const Home = () => {
   function getBaseURL() {
@@ -190,11 +229,13 @@ const Home = () => {
     window.location.replace(`${getBaseURL()}signup`)
   }
   document.body.style = "background-image: none; background-color: #FCF6F6 ";
+  if (Auth.loggedIn()) {
+    window.location.replace(`${getBaseURL()}dashboard`)
+  }
   return (
     <div>
       <StyledDiagonalDiv>
       </StyledDiagonalDiv>
-      <StyledCanbanio src={canbanio} />
       <Grid
         sx={{
           mt: "5%"
@@ -204,17 +245,18 @@ const Home = () => {
         justifyContent="flex-end"
         alignItems="center"
       >
-        <Grid item xs={4} sm={3} lg={2} >
+        <Grid item xs={2} sm={3} lg={2} >
           <StyledCanbanImg src={logo} />
         </Grid>
-        <Grid item xs={7} sm={6} lg={5}>
+        <Grid item xs={9} sm={6} lg={5}>
+          <StyledMobileHeroDiv>
           <StyledLandingHeader>
             Meet Canban.io
           </StyledLandingHeader>
           <StyledLandingAbout>
             your can-do buddy to help organize your projects better, keep your commit history in check, and git-organized!
           </StyledLandingAbout>
-
+          </StyledMobileHeroDiv>
         </Grid>
       </Grid>
       <Grid container>

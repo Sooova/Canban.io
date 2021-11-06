@@ -23,6 +23,9 @@ const StyledSignupHeader = styled.h1`
     @media (max-width: 745px) {
       font-size:55px
     }
+    @media (max-width: 500px) {
+      font-size:35px
+    }
 `;
 
 const StyledSignupBreadcrumb = styled.p`
@@ -72,8 +75,34 @@ width: 35%;
 margin-right: 3%;
 @media (max-width: 930px) {
   display:none;
+
 }
 `;
+
+const StyledWhiteDiv = styled.div`
+  display: flex;
+  justify-content: left;
+  padding: 20px;
+  flex-direction: column;
+  max-width:55%;
+  padding:40px;
+  background-color: white;
+  border-radius: 30px;
+  justify-content: center;
+  @media (max-width:920px) {
+    width:70%;
+  }
+  @media (max-width:720px) {
+    max-width:80%;
+    margin-top: 30px;
+  }
+  @media (max-width:720px) {
+    margin-top: 30px;
+  }
+
+
+`;
+
 
 function Login(props) {
   document.body.style = "background-image: none; background-color: #FCF6F6 ";
@@ -114,16 +143,7 @@ function Login(props) {
 
         <StyledImg src = {canbanwithmac}/>
 
-      <div style={{
-        display: "flex",
-        justifyContent: "left",
-        padding: "20px",
-        flexDirection: "column",
-        width:"35%",
-        backgroundColor: "white",
-        borderRadius: "30px",
-        justifyContent: "center",
-      }}>
+      <StyledWhiteDiv>
         <div>
           <StyledSignupHeader>
             Login to your account
@@ -173,7 +193,7 @@ function Login(props) {
             </StyledButton>
           </div>
         </form>
-      </div>
+      </StyledWhiteDiv>
       </div>
     </>
   );
