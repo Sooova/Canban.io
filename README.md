@@ -8,6 +8,7 @@ Canban.io, is a project managament app made to integrate your github commits int
 * [Vision](#vision)
 * [User_Story](#user_story)
 * [Design](#design)
+* [Deployment](#deployment)
 
 ## Vision 
 ### Canban.io was conceived with the intention to create a Kanban board that not only has all the features of the competitors, but also integrates your everday developer workflow into the mix. By include specific, one line, !canban syntax anywhere in your commit message, you are able to sync up with your github repository, and the corresponding card is auto-magically added to your kanban board for that specific workspace.
@@ -31,6 +32,31 @@ I WANT to still have the benefits of a project management system
 ![](https://i.imgur.com/fabFthK.png)
 ![](https://i.imgur.com/ssjc4uH.png)
 ![](https://i.imgur.com/amIP0bk.png)
+
+## Deployment
+### Below are images from deployment. Comparisons to Mobile layout made where possible:
+## Landing
+![](https://i.imgur.com/S3r0ghR.png)
+
+## Signup
+![](https://i.imgur.com/B3Zy5g7.png)
+
+## Login
+![](https://i.imgur.com/Ns8iP6L.png)
+
+## Workspaces
+Workspaces Desktop           |  Workspaces Mobile
+:-------------------------:|:-------------------------:
+![](https://i.imgur.com/UgB1HRi.png) |   ![](https://i.imgur.com/egcyTLG.png)
+
+
+## Canban Board
+## Canban Board
+Canban Board Desktop        |  Canban Board Mobile
+:-------------------------:|:-------------------------:
+![](https://i.imgur.com/UtyAJit.png) | ![](https://i.imgur.com/yoZjgEc.png)
+
+
 
 ## Github
 Github username: [Sooova](https://github.com/Sooova)
