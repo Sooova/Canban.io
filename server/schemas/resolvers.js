@@ -77,7 +77,7 @@ const resolvers = {
       return { token, user };
     },
     createCard: async (parent, args, context, info) => {
-      const {title, state, workspaceID, color} = args;
+      const {title, state, workspaceID, color, autoImport} = args;
       const card = new Card(args)
       await card.save();
       return card

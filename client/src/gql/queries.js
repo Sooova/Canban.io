@@ -41,6 +41,7 @@ export const FETCH_CARDS = gql `
       state
       updatedAt
       color
+      autoImport
     }
   }
 `;

@@ -560,6 +560,7 @@ function CanbanContainer() {
                                                                                 title={item.title}
                                                                                 time={item.updatedAt}
                                                                                 cardColor={item.color}
+                                                                                autoImport = {item.autoImport}
                                                                                 callback={() => refetch()}
                                                                             />
 

@@ -40,17 +40,20 @@ export const ADD_CARD = gql `
     $state: String!
     $workspaceID: ID!
     $color: String!
+    $autoImport: Boolean
   ) {
     createCard(
       title: $title
       state: $state
       workspaceID: $workspaceID
       color: $color
+      autoImport: $autoImport
     ) {
       title
       state
       workspaceID
       color
+      autoImport
     }
   }
 `;

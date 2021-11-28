@@ -10,6 +10,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { IconButton } from "@mui/material";
 import { useMutation } from "@apollo/client";
 import { keyframes } from "styled-components";
+import githubAutoImportIcon from "../assets/images/autoimport icon.png"
 
 const StyledDeleteContainer = styled.div`
     display:none;
@@ -30,7 +31,7 @@ const fadeIn = keyframes`
 `;
 
 const StyledInfoCardContainer = styled.div`
-  border-radius: 30px;
+  border-radius: 22px;
   padding: 16px;
   border-left: solid 7px ${props => props.theme.bg};
   background-color:white;
@@ -79,13 +80,29 @@ top:7%;
 left:20px;
 `;
 
+const StyledTagFlex = styled.div`
+    position:absolute;
+    right:20px;
+    bottom:7%;
+    display: flex;
+    flex-direction: row;
+`;
 const StyledTagContainer = styled.div`
 border-radius: 30px;
 background-color: ${props => props.theme.bg}; 
-display: inline-block;
-position:absolute;
-right:20px;
-bottom:7%;
+display: flex;
+flex-direction: row;
+margin-left: 10px;
+align-items: center;
+`;
+
+const StyledImportTagContainer = styled.div`
+border-radius: 30px;
+background-color: #e0e0e0; 
+display: flex;
+flex-direction: row;
+margin-left: 10px;
+align-items: center;
 `;
 
 const StyledTagName = styled.p`
@@ -95,7 +112,22 @@ font-size:10px;
 padding:5px;
 `;
 
-function CardKanban({ id, state, title, updatedAt, callback, cardColor }) {
+const StyledImportTagName = styled.p`
+color: #666666;
+font-family: "DM Sans", sans-serif;
+font-size:10px;
+padding:5px;
+`;
+
+const StyledImportIcon = styled.img`
+    width:14px;
+    height:14px;
+    opacity:80%;
+    padding-left:5px;
+
+`;
+
+function CardKanban({ id, state, title, updatedAt, callback, cardColor, autoImport }) {
     const themeState = {
         complete: {
             bg: "#c8f7dc",
@@ -148,38 +180,51 @@ function CardKanban({ id, state, title, updatedAt, callback, cardColor }) {
 
 
     return (
-            <ThemeProvider theme={themeColor[cardColor] ? themeColor[cardColor] : themeColor['pink']}>
-                <StyledInfoCardContainer>
-                    <StyledDeleteContainer>
-                        <IconButton onClick={handleCardDelete}
-                            sx={{
-                                position: "absolute",
-                                top: "2%",
-                                right: "12px",
-                            }}
-                        >
-                            <HighlightOffIcon
-                                fontSize="large"
-                            />
-                        </IconButton>
-                    </StyledDeleteContainer>
-                    <StyledCardDate>
-                        {/* <Moment unix format="YYYY/MM/DD">{cardData.updatedAt}</Moment> */}
-                        {moment(updatedAt).format("MMM Do")}
-                    </StyledCardDate>
-                    <StyledCardTitle>
-                        {title}
-                    </StyledCardTitle>
-                    <ThemeProvider theme={themeState[state]}>
+        <ThemeProvider theme={themeColor[cardColor] ? themeColor[cardColor] : themeColor['pink']}>
+            <StyledInfoCardContainer>
+                <StyledDeleteContainer>
+                    <IconButton onClick={handleCardDelete}
+                        sx={{
+                            position: "absolute",
+                            top: "2%",
+                            right: "12px",
+                        }}
+                    >
+                        <HighlightOffIcon
+                            fontSize="large"
+                        />
+                    </IconButton>
+                </StyledDeleteContainer>
+                <StyledCardDate>
+                    {/* <Moment unix format="YYYY/MM/DD">{cardData.updatedAt}</Moment> */}
+                    {moment(updatedAt).format("MMM Do")}
+                </StyledCardDate>
+                <StyledCardTitle>
+                    {title}
+                </StyledCardTitle>
+                <ThemeProvider theme={themeState[state]}>
+                    <StyledTagFlex>
                         <StyledTagContainer>
                             <StyledTagName>
                                 {state}
                             </StyledTagName>
                         </StyledTagContainer>
-                    </ThemeProvider>
+                        {autoImport == true ?
+                            <StyledImportTagContainer>
+                                <StyledImportIcon src={githubAutoImportIcon} />
+                                <StyledImportTagName>
+                                    {'imported'}
+                                </StyledImportTagName>
+                            </StyledImportTagContainer>
+                            :
+                            ''        
+                }
 
-                </StyledInfoCardContainer>
-            </ThemeProvider>
+                    </StyledTagFlex>
+                </ThemeProvider>
+
+            </StyledInfoCardContainer>
+        </ThemeProvider>
     )
 }
 

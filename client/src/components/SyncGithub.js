@@ -105,7 +105,8 @@ const GithubSync = function (props) {
                     title: title,
                     state: stateCamelCase, 
                     workspaceID: window.location.search.substring(1),
-                    color: 'lightBlue'
+                    color: 'lightBlue',
+                    autoImport: true,
                 }
             });
             props.callback();

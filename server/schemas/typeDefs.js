@@ -16,6 +16,7 @@ const typeDefs = gql`
     workspaceID: ID
     updatedAt: String
     color: String
+    autoImport: Boolean
   }
 
   type Workspace {
@@ -52,7 +53,7 @@ const typeDefs = gql`
     addUser(firstName: String!, lastName: String!, email: String!, githubUser: String, password: String!): Auth
     updateUser(email: String, password: String): User
     login(email: String!, password: String!): Auth
-    createCard(title: String!, state: String!, workspaceID: ID!, color: String!): Card
+    createCard(title: String!, state: String!, workspaceID: ID!, color: String!, autoImport: Boolean): Card
     deleteCard(id: ID): String
     updateCard(id:ID, state: String, id: ID!): Card
     updateWorkspace(id:ID, title: String, repositoryName: String): Workspace

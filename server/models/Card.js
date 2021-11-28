@@ -16,6 +16,10 @@ const cardsSchema = new mongoose.Schema({
     color: {
         type: String, 
         required: true,
+    }, 
+    autoImport: {
+        type: Boolean, 
+        required: false,
     } 
 }, {timestamps: true})
 
