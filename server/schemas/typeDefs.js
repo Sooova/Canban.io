@@ -7,6 +7,8 @@ const typeDefs = gql`
     githubUser: String
     firstName: String
     lastName: String
+    createdAt: String
+    updatedAt: String
   }
 
   type Card {

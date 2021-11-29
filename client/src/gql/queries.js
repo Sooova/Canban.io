@@ -7,6 +7,7 @@ export const QUERY_USER = gql`
       githubUser
       firstName
       lastName
+      createdAt
     }
   }
 `;

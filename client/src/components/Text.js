@@ -30,11 +30,21 @@ const P = styled.p``;
 
 const label = styled.label``;
 
+const StyledText = styled.h1`
+    font-family: "DM Sans", sans-serif;
+    font-size: ${props => props.fontSize};
+    color: rgb(31, 28, 46);
+    font-weight: ${props => props.fontWeight};
+    opacity: ${props => props.opacity};
+    margin-bottom:2%;
+`;
+
 export {
 	H1,
 	H2,
 	H3,
 	H4,
 	P,
-	label
+	label, 
+	StyledText
 }

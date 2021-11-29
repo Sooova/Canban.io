@@ -30,6 +30,7 @@ import PrivacyPolicy from './pages/Privacy Policy';
 import GithubSync from './components/SyncGithub';
 import MobileBar from './components/MobileBar';
 import ComponentTesting from './pages/ComponentTesting';
+import Profile from './pages/Profile';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -64,7 +65,8 @@ function App() {
             <Route exact path = "/dashboard" component = {Dashboard}/>
             <Route exact path ="/projects" component = {Projects}/>
             {/* <Route exact path = "/newworkspace" component = {NewWorkspace}/> */}
-            <Route exact path = "/componenttesting" component = {ComponentTesting}/>
+            <Route exact path = "/profile" component = {Profile}/>
+            <Route exact path = "/componenttesting" component = {Profile}/>
             <Route component={ErrorPage} />
           </Switch>
         </StoreProvider>

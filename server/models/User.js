@@ -25,8 +25,8 @@ const userSchema = new Schema({
   githubUser: {
     type: String, 
     required: false, 
-  },
-});
+  }
+},{timestamps: true});
 
 // set up pre-save middleware to create password
 userSchema.pre('save', async function(next) {

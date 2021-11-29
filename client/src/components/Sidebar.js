@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import { React, useState } from "react";
 import Auth from "../utils/auth";
 import styled from 'styled-components';
 import DvrIcon from '@mui/icons-material/Dvr';
@@ -121,7 +121,7 @@ function Sidebar({ parentRef }) {
     var profileRender = false;
     const { loading, error, data, refetch } = useQuery(QUERY_USER);
     if (data) {
-        if(data.user.githubUser == '') {
+        if (data.user.githubUser == '') {
             profileRender = false;
         }
         else {
@@ -141,15 +141,15 @@ function Sidebar({ parentRef }) {
 
 
 
-                
-                {profileRender == true && 
-                
+
+                {profileRender == true &&
+
                     <div style={{
                         marginBottom: "5px",
                         marginTop: "50px"
                     }}>
                         <StyledProfileLi>
-                        <StyledUserProfile src={`https://github.com/${data.user.githubUser}.png?size=200`} />
+                            <StyledUserProfile src={`https://github.com/${data.user.githubUser}.png?size=200`} />
                         </StyledProfileLi>
                     </div>
 
@@ -195,9 +195,16 @@ function Sidebar({ parentRef }) {
 
                         }}
                     />
-                    <StyledP>
-                        Profile
-                    </StyledP>
+                    <Link to="/profile"
+                    style = {{
+                        textDecoration: "none",
+                        color: "color: rgb(31, 28, 46)",
+                    }}
+                    >
+                        <StyledP>
+                            Profile
+                        </StyledP>
+                    </Link>
                 </StyledSidebarLi>
 
                 <StyledSidebarLi>
