@@ -10,6 +10,8 @@ import { QUERY_USER } from '../gql/queries';
 import Sidebar from "../components/Sidebar";
 import { keyframes } from "styled-components";
 import questionMark from "../assets/images/questionmark.png"
+import "../assets/css/profile.css"
+import $ from 'jquery';
 
 const StyledContainingDiv = styled.div`
     display:flex;
@@ -55,13 +57,26 @@ opacity:0.8;
 `;
 
 const StyledQuestionMarkDiv = styled.div`
-&:hover {
-    opacity:1;
-    cursor: help;
-    &:after {
-    content: "Your account was created before timestamps ";
-  }
-}
+position:relative;
+`;
+
+const StyledTooltip = styled.span`
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    ${StyledQuestionMark}:hover {
+        visibility:visible;
+    }
 `;
 
 const StyledInput = styled.input`
@@ -88,7 +103,11 @@ const Profile = function () {
     const { data, refetch } = useQuery(QUERY_USER);
     const [sidebarWidth, setSidebarWidth] = useState("10px");
     const sidebarRef = useRef();
-
+    const [hidden, setHidden] = useState(true);
+    $('#questionMark').hover(
+        function(){ setHidden(false)},
+        function(){ setHidden(true) }
+ )
     useEffect(() => {
         const updateWidth = () => {
             setSidebarWidth(sidebarRef.current.offsetWidth);
@@ -209,9 +228,11 @@ const Profile = function () {
                                             display: "flex",
                                             flexDirection: "row",
                                         }}>
-                                            <div>
-                                                <StyledQuestionMark src={questionMark} />
-                                            </div>
+                                            <StyledQuestionMarkDiv>
+                                                <StyledQuestionMark id = "questionMark" src={questionMark} />
+                                                {!hidden && <StyledTooltip>Your account was created before timestamps were available.</StyledTooltip>}
+                                                
+                                            </StyledQuestionMarkDiv>
                                             <StyledText
                                                 fontSize={"12px"}
                                                 fontWeight={300}

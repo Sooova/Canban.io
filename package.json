@@ -17,6 +17,7 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
+    "jquery": "^3.6.0",
     "octokit": "^1.7.1"
   }
 }
