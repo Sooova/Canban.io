@@ -61,9 +61,9 @@ position:relative;
 `;
 
 const StyledTooltip = styled.span`
-    visibility: hidden;
+    visibility: visible;
     width: 120px;
-    background-color: black;
+    background-color: #3d3d3d;
     color: #fff;
     text-align: center;
     padding: 5px 0;
@@ -72,10 +72,19 @@ const StyledTooltip = styled.span`
     z-index: 1;
     width: 120px;
     top: 100%;
-    left: 50%;
+    left: 15%;
     margin-left: -60px;
-    ${StyledQuestionMark}:hover {
-        visibility:visible;
+    padding:3px;
+    font-family: "DM Sans", sans-serif;
+    &::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;  /* At the top of the tooltip */
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent #3d3d3d transparent;
     }
 `;
 
@@ -104,10 +113,15 @@ const Profile = function () {
     const [sidebarWidth, setSidebarWidth] = useState("10px");
     const sidebarRef = useRef();
     const [hidden, setHidden] = useState(true);
-    $('#questionMark').hover(
-        function(){ setHidden(false)},
-        function(){ setHidden(true) }
- )
+
+    function mOver() {
+        setHidden(false)
+    }
+
+    function mOut() {
+        setHidden(true)
+    }
+
     useEffect(() => {
         const updateWidth = () => {
             setSidebarWidth(sidebarRef.current.offsetWidth);
@@ -229,9 +243,12 @@ const Profile = function () {
                                             flexDirection: "row",
                                         }}>
                                             <StyledQuestionMarkDiv>
-                                                <StyledQuestionMark id = "questionMark" src={questionMark} />
+                                                <StyledQuestionMark id="questionMark" src={questionMark}
+                                                    onMouseEnter={() => mOver()}
+                                                    onMouseLeave={() => mOut()}
+                                                />
                                                 {!hidden && <StyledTooltip>Your account was created before timestamps were available.</StyledTooltip>}
-                                                
+
                                             </StyledQuestionMarkDiv>
                                             <StyledText
                                                 fontSize={"12px"}
